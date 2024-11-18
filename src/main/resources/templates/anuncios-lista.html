@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Listado de Anuncios</title>
+    <link th:href="@{/css/styles.css}"  rel="stylesheet">
+</head>
+<body>
+<nav>
+    <img src="/images/logo4.png" alt="logo generado por inteligencia artificial">
+    <h1>GreenMarket</h1>
+    <a href="">Crear nuevo anuncio</a>
+    <a href="">Crear nueva categoria</a>
+
+    <section class="seccion__login">
+
+        <form th:action="@{/anuncios}" method="get">
+            <input type="text" name="usuario" placeholder="Usuario"><br>
+            <input type="password" name="password" placeholder="Password"><br>
+            <input type="submit" value="Iniciar Sesion"></input>
+            <input type="button" value="Registrarme" name="registrarme" th:onclick="|window.location.href='@{/usuario/nuevo}'|">
+
+        </form>
+    </section>
+</nav>
+<main>
+
+    <h1>Portal de anuncios desarrollado en Sprint Boot Web</h1>
+    <section id="anuncios" class="seccion__listado__anuncios">
+
+
+        <p th:if="${#lists.isEmpty(anuncios)}">No hay anuncios.</p>
+
+
+        <ul class="anuncios__listado__anuncios--listado">
+            <li th:each="anuncio: ${anuncios}">
+
+                <article class="seccion__listado__anuncios__casilla">
+                    <img  th:src="'/imagesAnuncio/' + ${anuncio.ruta}" class="seccion__listado__anuncios__casilla--imagen">
+                    <section class="seccion__listado__anuncios__casilla__contenido">
+                        <h3 class="seccion__listado__anuncios__casilla__contenido--titulo" th:text="${anuncio.titulo}"></h3>
+                        <label>Precio: </label>
+                        <p class="seccion__listado__anuncios__casilla__contenido--precio" th:text="${anuncio.precio}"></p>
+
+                    </section>
+                </article>
+
+
+
+            </li>
+        </ul>
+    </section>
+</main>
+</body>
+<footer>
+
+    <strong>Desarrollado por Nacho Palenque</strong>
+
+</footer>
+
+</html>

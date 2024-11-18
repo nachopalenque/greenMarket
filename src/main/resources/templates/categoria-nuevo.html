@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:href="@{/css/styles.css}"  rel="stylesheet">
+
+    <title>Categorias</title>
+</head>
+<body>
+<nav>
+    <img src="/images/logo4.png" alt="logo generado por inteligencia artificial">
+    <h1>GreenMarket</h1>
+</nav>
+<main>
+     <section>
+
+         <form th:action="@{/categoria/nuevo}" method="POST" th:object="${categoria}">
+
+             <label>Titulo: </label><br>
+
+             <input type="text" name="titulo" th:value="${categoria.titulo}" placeholder="Titulo de la categoria"><br>
+
+             <label>Descripcion: </label><br>
+             <input type="text" name="descripcion" th:value="${categoria.descripcion}" placeholder="Descripcion de la categoria"><br>
+
+             <input type="submit" value="Crear Categoria">
+         </form>
+
+
+     </section>
+
+</main>
+
+
+</body>
+<footer>
+
+    <strong>Desarrollado por Nacho Palenque</strong>
+
+</footer>
+</html>

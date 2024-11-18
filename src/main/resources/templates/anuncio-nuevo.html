@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:href="@{/css/styles.css}"  rel="stylesheet">
+    <title>Nuevo Anuncio</title>
+</head>
+<body>
+<nav>
+    <img src="/images/logo4.png" alt="logo generado por inteligencia artificial">
+    <h1>GreenMarket</h1>
+</nav>
+
+<form th:action="@{/anuncios/nuevo}" method="POST" th:object="${anuncio}" enctype="multipart/form-data">
+
+    <label for="titulo">Titulo del producto: </label><br>
+    <input type="text" name="titulo" id="titulo"  th:field="*{titulo}" placeholder="Titulo del anuncio"><br>
+
+    <label for="descripcion">Descripcion del producto: </label><br>
+    <input type="text" name="descripcion" id="descripcion" th:field="*{descripcion}" placeholder="Descripcion del anuncio"><br>
+
+    <label for="precio">Precio del producto: </label><br>
+    <input type="number" name="precio"  id="precio" th:field="*{precio}" min="0" step="0.01" ><br>
+
+    <legend>
+
+        <label for="categoria">Categoria del producto: </label><br>
+
+        <p th:if="${#lists.isEmpty(categorias)}">No hay categorias aun dadas de alta.</p>
+        <select id="categoria" name="categoria" th:field="*{categoria}">
+            <option value="">Selecciona una categoria</option>
+            <option th:each="categoria : ${categorias}" th:text="${categoria.titulo}" th:value="${categoria.id}"></option>
+        </select><br>
+
+    </legend>
+
+
+
+
+    <legend>
+
+
+        <label>Imagenes del producto: </label><br>
+
+
+
+        <section class="seccion__articulo__nuevo__contenedorFotos" id="contenedorFotos" >
+
+            <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta" id="contenedorImg1" onclick="activarSelectorImagen(this)">
+
+                <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput" accept="image/jpeg, image/png, image/gif, image/webp" onchange="visualizarImage(this)" >
+
+            </article>
+
+            <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta" id="contenedorImg2" onclick="activarSelectorImagen(this)">
+
+                <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput" accept="image/jpeg, image/png, image/gif, image/webp" onchange="visualizarImage(this)"  >
+
+            </article>
+
+            <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta" id="contenedorImg3" onclick="activarSelectorImagen(this)">
+
+                <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput" accept="image/jpeg, image/png, image/gif, image/webp" onchange="visualizarImage(this)"  >
+
+            </article>
+
+            <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta" id="contenedorImg4" onclick="activarSelectorImagen(this)">
+
+                <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput" accept="image/jpeg, image/png, image/gif, image/webp" onchange="visualizarImage(this)"  >
+
+            </article>
+
+            <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta" id="contenedorImg5" onclick="activarSelectorImagen(this)">
+
+                <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput" accept="image/jpeg, image/png, image/gif, image/webp" onchange="visualizarImage(this)"  >
+
+            </article>
+
+        </section>
+
+    </legend>
+
+
+    <input type="submit" value="Crear Anuncio">
+
+</form>
+
+
+</body>
+<footer>
+
+    <strong>Desarrollado por Nacho Palenque</strong>
+
+</footer>
+<script>
+
+
+    function activarSelectorImagen(caja) {
+        caja.querySelector('.seccion__articulo__nuevo__contenedorFotos--fileInput').click();
+    }
+
+    function visualizarImage(input) {
+        const file = input.files[0];
+        const tiposPermitidos = ["image/jpeg", "image/png", "image/gif", "image/webp"];
+
+        if(file && !tiposPermitidos.includes(file.type)){
+            alert("Por favor, selecciona un archivo de imagen válido (JPEG, PNG, GIF o WEBP).");
+        }
+        else {
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    let img = input.parentElement.querySelector('img');
+                    // Si ya existe una imagen, la reutilizamos; si no, creamos una nueva
+                    if (!img) {
+                        img = document.createElement('img');
+                        input.parentElement.appendChild(img);
+                    }
+
+                    img.src = e.target.result; // Asigna la imagen como fondo de la caja
+                };
+
+                reader.readAsDataURL(file);
+
+
+            } else {    //No ha seleccionado archivo y hay foto la foto
+                let img = input.parentElement.querySelector('img');
+
+                if (img) {
+                    img.remove();
+                }
+            }
+        }
+    }
+
+</script>
+</html>

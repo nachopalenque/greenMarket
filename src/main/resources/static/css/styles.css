@@ -1,0 +1,155 @@
+nav{
+    display: flex;
+    position: relative;
+    height: 100px;
+    background-color:white;
+    opacity: 60%;
+    border:1px solid #80ea6e;
+    border-radius: 10px;
+
+}
+
+footer{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color:white;
+    opacity: 60%;
+    border:1px solid #80ea6e;
+    border-radius: 10px;
+    text-align: center;
+
+}
+
+nav a {
+    padding-top: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    justify-content: space-between;
+    font-family: "Ubuntu Sans";
+    font-size: 20px;
+
+}
+nav a:hover {
+  color: darkslategrey;
+}
+
+nav img {
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+
+    width:  75px;
+    height: 75px;
+    border:2px solid darkgreen;
+    border-radius: 10px;
+}
+
+nav h1 {
+    margin-right: 50px;
+    font-size: 28px;
+    -webkit-text-stroke: 1px #80ea6e; /* Borde blanco de 2px */
+}
+.seccion__login{
+    height: 70px;
+    right: 5px;
+    text-align: right;
+    margin-top:5px;
+    margin-bottom: 30px;
+    margin-right: 10px;
+    position: absolute;
+}
+
+
+body{
+    background-color:ghostwhite;
+
+}
+
+
+.seccion__articulo__nuevo__contenedorFotos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Espacio entre los elementos */
+    padding: 10px;
+}
+.seccion__articulo__nuevo__contenedorFotos--productoInserta{
+    width: 100px;
+    height: 100px;
+    border: 1px solid #333;
+    box-sizing: border-box;
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden; /* Para ajustar la imagen al tamaño de la caja */
+    position: relative;
+}
+.seccion__articulo__nuevo__contenedorFotos--productoInserta img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.seccion__articulo__nuevo__contenedorFotos--fileInput {
+    display: none; /* Oculta el input de archivo */
+}
+
+
+.anuncios__listado__anuncios--listado {
+    display: grid;                      /* Usamos grid para organizar los artículos */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* 3-4 tarjetas por fila dependiendo del tamaño */
+    gap: 20px;                           /* Espacio entre los artículos */
+    list-style-type: none;               /* Quitamos los puntos de lista */
+    padding: 0;
+    margin: 0;
+}
+
+/* Estilo para cada artículo (tarjeta) */
+.seccion__listado__anuncios__casilla {
+    background-color: #fff;              /* Fondo blanco */
+    border-radius: 10px;                 /* Bordes redondeados */
+    overflow: hidden;                    /* Evita que el contenido se desborde */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease; /* Animación para hover */
+}
+
+/* Efecto hover para la tarjeta */
+.seccion__listado__anuncios__casilla:hover {
+    transform: translateY(-10px);         /* Sube un poco la tarjeta */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Sombra más prominente */
+    border:1px solid #80ea6e;
+
+}
+
+/* Estilo de la imagen dentro de la tarjeta */
+.seccion__listado__anuncios__casilla--imagen {
+    width: 100%;                          /* Imagen ocupa el 100% del ancho de la tarjeta */
+    height: 200px;                        /* Establecemos una altura fija para la imagen */
+    object-fit: cover;                    /* Hace que la imagen cubra el área sin distorsionarse */
+    border-bottom: 2px solid #ddd;       /* Línea sutil debajo de la imagen */
+}
+
+/* Contenido de la tarjeta (título y descripción) */
+.seccion__listado__anuncios__casilla__contenido {
+    padding: 15px;                        /* Espaciado interno para el contenido */
+}
+
+/* Estilo para el título */
+.seccion__listado__anuncios__casilla__contenido--titulo {
+    font-size: 1.25rem;                   /* Tamaño de fuente para el título */
+    font-weight: bold;                    /* Negrita para el título */
+    margin: 0;
+    color: #333;                          /* Color del texto */
+}
+
+/* Estilo para la descripción */
+.seccion__listado__anuncios__casilla__contenido--precio {
+    font-size: 1rem;
+    color: #666;                          /* Color gris suave para la descripción */
+    margin-top: 10px;
+}
+
