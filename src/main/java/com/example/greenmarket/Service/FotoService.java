@@ -26,10 +26,14 @@ public class FotoService {
     @Autowired
     AnuncioRepository anuncioRepository;
     @Autowired
-    FotoRepository fotoProductoRepository;
+    FotoRepository fotoAnuncioRepository;
 
     public List<Foto> getFotos(){
-        return fotoProductoRepository.findAll();
+        return fotoAnuncioRepository.findAll();
+    }
+
+    public List<Foto> getFotosAnuncio(Anuncio anuncio){
+        return fotoAnuncioRepository.findByAnuncio(anuncio);
     }
 
     public List<Foto> guardarFotos(List<MultipartFile> fotos, Anuncio anuncio) {
@@ -120,9 +124,9 @@ public class FotoService {
     public void eliminarFotosAnuncio(long id_Anuncio){
 
         Anuncio anuncio = anuncioRepository.findById(id_Anuncio).get();
-        List<Foto> fotos = fotoProductoRepository.findByAnuncio(anuncio);
+        List<Foto> fotos = fotoAnuncioRepository.findByAnuncio(anuncio);
         for (Foto fotoDelete : fotos ) {
-            fotoProductoRepository.delete(fotoDelete);
+            fotoAnuncioRepository.delete(fotoDelete);
         }
 
     }

@@ -33,6 +33,7 @@ public class AnuncioController {
     public String getAnuncios(Model model){
 
         List<ListadoAnunciosImagenes> anunciosConFotos = anuncioService.getAnunciosImagenes();
+        model.addAttribute("totalAnuncios", anunciosConFotos.size());
         model.addAttribute("anuncios", anunciosConFotos);
         return "anuncios-lista";
     }
@@ -54,7 +55,7 @@ public class AnuncioController {
 
         fotoService.guardarFotos(fotos, anuncio);
         anuncioService.altaAnuncio(anuncio);
-        return "anuncios-lista";
+        return "redirect:anuncios-lista";
     }
 
     @GetMapping("/anuncios/borrar/{id}")
@@ -64,4 +65,15 @@ public class AnuncioController {
         return "anuncios-lista";
     }
 
+
+    @GetMapping("/anuncios/ver/{id}")
+    public String getAnuncioVer(@PathVariable Long id, Model model){
+
+        Anuncio anuncio = new Anuncio();
+        anuncio = anuncioService.getAnuncioId(id);
+        model.addAttribute("anuncio", anuncio );
+        model.addAttribute("fotos", fotoService.getFotosAnuncio(anuncio));
+
+        return "anuncio-ver";
+    }
 }

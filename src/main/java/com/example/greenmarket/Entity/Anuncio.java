@@ -8,7 +8,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -28,6 +30,9 @@ public class Anuncio {
 
     @NotEmpty
     private String descripcion;
+
+
+    private LocalDate fechaCreacion;
 
     @NotNull(message = "El campo precio es obligatorio. Debe introduccir un valor para el precio del anuncio.")
     @Column(nullable = false)

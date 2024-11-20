@@ -37,7 +37,13 @@
             <li th:each="anuncio: ${anuncios}">
 
                 <article class="seccion__listado__anuncios__casilla">
-                    <img  th:src="'/imagesAnuncio/' + ${anuncio.ruta}" class="seccion__listado__anuncios__casilla--imagen">
+
+                    <a th:href="@{/anuncios/ver/{id}(id=${anuncio.id})}">
+
+                        <img  th:src="'/imagesAnuncio/' + ${anuncio.ruta}" class="seccion__listado__anuncios__casilla--imagen"/>
+
+                    </a>
+
                     <section class="seccion__listado__anuncios__casilla__contenido">
                         <h3 class="seccion__listado__anuncios__casilla__contenido--titulo" th:text="${anuncio.titulo}"></h3>
                         <label>Precio: </label>
@@ -51,6 +57,7 @@
             </li>
         </ul>
     </section>
+    <p th:text="'El número total de anuncios es de :'+ ${totalAnuncios}"></p>
 </main>
 </body>
 <footer>

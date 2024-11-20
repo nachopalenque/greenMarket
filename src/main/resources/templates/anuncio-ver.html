@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:href="@{/css/styles.css}"  rel="stylesheet">
+    <title>Anuncio Ver</title>
+</head>
+<body>
+<nav>
+    <img src="/images/logo4.png" alt="logo generado por inteligencia artificial">
+    <h1>GreenMarket</h1>
+</nav>
+
+<main>
+    <section>
+        <h1 th:text="'Título del producto: '+${anuncio.titulo} + ' Precio :' +${anuncio.precio}"></h1><br>
+        <p th:text="'Descripción: '+ ${anuncio.descripcion}"></p>
+    </section>
+
+    <section>
+
+        <ul class="anuncios__listado__anuncios--listado">
+            <li th:each="foto: ${fotos}">
+
+                <article class="seccion__anuncio__ver__casilla__contenido">
+                    <img  th:src="'/imagesAnuncio/' + ${foto.ruta}" class="seccion__anuncio__ver__casilla__contenido--imagen">
+
+                </article>
+
+            </li>
+        </ul>
+
+
+
+
+
+    </section>
+
+</main>
+</body>
+<footer>
+
+    <strong>Desarrollado por Nacho Palenque</strong>
+
+</footer>
+</html>
