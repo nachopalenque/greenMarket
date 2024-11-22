@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.service.annotation.GetExchange;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class AnuncioController {
@@ -55,14 +56,14 @@ public class AnuncioController {
 
         fotoService.guardarFotos(fotos, anuncio);
         anuncioService.altaAnuncio(anuncio);
-        return "redirect:anuncios-lista";
+        return "redirect:/";
     }
 
     @GetMapping("/anuncios/borrar/{id}")
     public String eliminarAnuncio(@PathVariable Long id) {
         fotoService.eliminarFotosAnuncio(id);
         anuncioService.bajaAnuncioId(id);
-        return "anuncios-lista";
+        return "redirect:/";
     }
 
 
@@ -76,4 +77,31 @@ public class AnuncioController {
 
         return "anuncio-ver";
     }
+
+    @GetMapping("/anuncios/editar/{id}")
+    public String getAnuncioEditar(@PathVariable Long id, Model model){
+
+        Anuncio anuncio = new Anuncio();
+        anuncio = anuncioService.getAnuncioId(id);
+        model.addAttribute("anuncio", anuncio );
+
+        return "anuncio-editar";
+    }
+
+    @PostMapping("/anuncios/editar/{id}/addfoto")
+
+    public String addFoto(@PathVariable("id") Long idFoto, Model model,
+                          @RequestParam(value = "archivoFoto") MultipartFile archivoFoto) {
+
+        Optional<Anuncio> anuncio = anuncioService.dameAnuncioPorIdFoto(idFoto);
+
+        if(anuncio.isPresent()){
+
+            fotoService.guardarFotos((List<MultipartFile>) archivoFoto, anuncio.get());
+        }
+
+        return "redirect:/anuncios/editar/" + anuncio.get().getId();
+    }
+
+
 }

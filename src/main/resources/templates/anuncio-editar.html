@@ -1,11 +1,88 @@
 <!doctype html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Document</title>
+    <link th:href="@{/css/styles.css}"  rel="stylesheet">
+    <title>Editar Anuncio</title>
 </head>
 <body>
+<nav>
+    <img src="/images/logo4.png" alt="logo generado por inteligencia artificial">
+    <h1>GreenMarket</h1>
+    <a href="">Todos los anuncios</a>
+    <a href="">Mis anuncios</a>
+</nav>
+
+<form th:action="@{/anuncios/nuevo}" method="POST" th:object="${anuncio}"  enctype="multipart/form-data">
+
+    <label for="titulo">Titulo del producto: </label><br>
+    <input type="text" name="titulo" id="titulo"  th:field="*{titulo}" th:value="*{titulo}" placeholder="Titulo del anuncio"><br>
+
+    <label for="descripcion">Descripcion del producto: </label><br>
+    <textarea id="descripcion" name="descripcion" rows="4" cols="50" th:field="*{descripcion}"  th:value="*{titulo}"  placeholder="Descripción del anuncio"></textarea><br>
+
+
+    <label for="precio">Precio del producto: </label><br>
+    <input type="number" name="precio"  id="precio" th:field="*{precio}" th:value="*{precio}"  min="0" step="0.01" ><br>
+
+
+    <legend>
+
+        <label for="categoria">Categoria del producto: </label><br>
+
+        <p th:if="${#lists.isEmpty(categorias)}">No hay categorias aun dadas de alta.</p>
+        <select id="categoria" name="categoria" th:field="*{categoria}">
+            <option value="">Selecciona una categoria</option>
+            <option th:each="categoria : ${categorias}" th:text="${categoria.titulo}" th:value="${categoria.id}"></option>
+        </select><br>
+
+    </legend>
+
+
+
+    <legend>
+
+
+        <label>Imagenes del producto: </label><br>
+
+        <section class="foto-container">
+            <section th:each="foto : ${anuncio.fotos}"
+                 class="seccion__articulo__nuevo__contenedorFotos--productoInserta"
+                 th:style="'background-image: url(/imagesAuncios/' + ${foto.ruta} + ');'">
+                <a th:href="@{/anuncios/{id1}/fotos/{id2}/elimina(id1=${producto.id}, id2=${foto.id})}" class="cruz-delete-foto">X</a>
+            </section>
+            <section class="seccion__articulo__nuevo__contenedorFotos--productoInserta" id="nuevaFoto">
+                <i class="fa-regular fa-image"></i>
+            </section>
+        </section>
+        <br>
+
+    </legend>
+
+
+    <input type="submit" value="Editar Anuncio">
+
+</form>
+
+<form th:action="@{/anuncios/editar/{id}/addfoto(id=${anucio.id})}" method="post" enctype="multipart/form-data" id="formulario-add-foto" hidden="hidden">
+    <input type="file" name="archivoFoto"  id="nuevoArchivo">
+</form>
 
 </body>
+<footer>
+
+    <strong>Desarrollado por Nacho Palenque</strong>
+
+</footer>
+<script>
+
+        document.getElementById("nuevaFoto").addEventListener("click", function () {
+        document.getElementById("nuevoArchivo").click();
+        } );
+
+        document.getElementById("nuevoArchivo").addEventListener("change", function () {
+        document.getElementById("formulario-add-foto").submit();})
+</script>
+
 </html>

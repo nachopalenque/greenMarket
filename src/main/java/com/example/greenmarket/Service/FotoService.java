@@ -132,4 +132,9 @@ public class FotoService {
     }
 
 
+    public void eliminarFotosId(long id){
+        fotoAnuncioRepository.deleteById(id);
+    }
+
+
 }

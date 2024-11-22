@@ -31,7 +31,6 @@ public class CategoriaController {
         }
 
         categoriaService.altaCategoria(categoria);
-        //Redirigimos a /getProductos
-        return "redirect:/productos";
+        return "redirect:/";
     }
 }
