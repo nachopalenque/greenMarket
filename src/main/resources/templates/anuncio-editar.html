@@ -14,10 +14,11 @@
     <a href="">Mis anuncios</a>
 </nav>
 
-<form th:action="@{/anuncios/nuevo}" method="POST" th:object="${anuncio}"  enctype="multipart/form-data">
+<form th:action="@{/anuncios/editar/{id}(id=${anuncio.id})}" method="POST" th:object="${anuncio}"  enctype="multipart/form-data">
 
     <label for="titulo">Titulo del producto: </label><br>
     <input type="text" name="titulo" id="titulo"  th:field="*{titulo}" th:value="*{titulo}" placeholder="Titulo del anuncio"><br>
+    <span th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}"></span><br>
 
     <label for="descripcion">Descripcion del producto: </label><br>
     <textarea id="descripcion" name="descripcion" rows="4" cols="50" th:field="*{descripcion}"  th:value="*{titulo}"  placeholder="Descripción del anuncio"></textarea><br>
@@ -25,19 +26,11 @@
 
     <label for="precio">Precio del producto: </label><br>
     <input type="number" name="precio"  id="precio" th:field="*{precio}" th:value="*{precio}"  min="0" step="0.01" ><br>
+    <span th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}"></span><br>
 
 
-    <legend>
 
-        <label for="categoria">Categoria del producto: </label><br>
 
-        <p th:if="${#lists.isEmpty(categorias)}">No hay categorias aun dadas de alta.</p>
-        <select id="categoria" name="categoria" th:field="*{categoria}">
-            <option value="">Selecciona una categoria</option>
-            <option th:each="categoria : ${categorias}" th:text="${categoria.titulo}" th:value="${categoria.id}"></option>
-        </select><br>
-
-    </legend>
 
 
 
@@ -46,28 +39,140 @@
 
         <label>Imagenes del producto: </label><br>
 
-        <section class="foto-container">
-            <section th:each="foto : ${anuncio.fotos}"
-                 class="seccion__articulo__nuevo__contenedorFotos--productoInserta"
-                 th:style="'background-image: url(/imagesAuncios/' + ${foto.ruta} + ');'">
-                <a th:href="@{/anuncios/{id1}/fotos/{id2}/elimina(id1=${producto.id}, id2=${foto.id})}" class="cruz-delete-foto">X</a>
+
+
+        <section class="seccion__articulo__nuevo__contenedorFotos" id="contenedorFotos" >
+
+            <section>
+                <!-- Cuando la lista de fotos tiene al menos 2 elementos -->
+                <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta"
+                         id="contenedorImg1Edit"
+                         th:if="${#lists.size(anuncio.fotos) >= 1}"
+                         onclick="activarSelectorImagen(this)">
+                    <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput"
+                           accept="image/jpeg, image/png, image/gif, image/webp"
+                           onchange="visualizarImage(this)">
+                    <img th:src="'/imagesAnuncio/' + ${anuncio.fotos[0].ruta}" alt="Foto 1" />
+                    <a th:href="@{/anuncios/{id1}/fotos/{id2}/elimina(id1=${anuncio.id}, id2=${anuncio.fotos[0].id})}"
+                       class="cruz-delete-foto">X</a>
+                </article>
+
+                <!-- Si la lista de fotos tiene menos de 2 elementos -->
+                <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta"
+                         id="contenedorImg1"
+                         th:unless="${#lists.size(anuncio.fotos) >= 1}"
+                         onclick="activarSelectorImagen(this)">
+                    <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput"
+                           accept="image/jpeg, image/png, image/gif, image/webp"
+                           onchange="visualizarImage(this)">
+                </article>
             </section>
-            <section class="seccion__articulo__nuevo__contenedorFotos--productoInserta" id="nuevaFoto">
-                <i class="fa-regular fa-image"></i>
+
+
+
+            <section>
+                <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta"
+                         id="contenedorImg2Edit"
+                         th:if="${#lists.size(anuncio.fotos) >= 2}"
+                         onclick="activarSelectorImagen(this)">
+                    <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput"
+                           accept="image/jpeg, image/png, image/gif, image/webp"
+                           onchange="visualizarImage(this)">
+                    <img th:src="'/imagesAnuncio/' + ${anuncio.fotos[1].ruta}" alt="Foto 2" />
+                    <a th:href="@{/anuncios/{id1}/fotos/{id2}/elimina(id1=${anuncio.id}, id2=${anuncio.fotos[1].id})}"
+                       class="cruz-delete-foto">X</a>
+                </article>
+                <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta"
+                         id="contenedorImg2"
+                         th:unless="${#lists.size(anuncio.fotos) >= 2}"
+                         onclick="activarSelectorImagen(this)">
+                    <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput"
+                           accept="image/jpeg, image/png, image/gif, image/webp"
+                           onchange="visualizarImage(this)">
+                </article>
             </section>
+
+
+            <section>
+                <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta"
+                         id="contenedorImg3Edit"
+                         th:if="${#lists.size(anuncio.fotos) >= 3}"
+                         onclick="activarSelectorImagen(this)">
+                    <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput"
+                           accept="image/jpeg, image/png, image/gif, image/webp"
+                           onchange="visualizarImage(this)">
+                    <img th:src="'/imagesAnuncio/' + ${anuncio.fotos[2].ruta}" alt="Foto 3" />
+                    <a th:href="@{/anuncios/{id1}/fotos/{id2}/elimina(id1=${anuncio.id}, id2=${anuncio.fotos[2].id})}"
+                       class="cruz-delete-foto">X</a>
+                </article>
+                <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta"
+                         id="contenedorImg3"
+                         th:unless="${#lists.size(anuncio.fotos) >= 3}"
+                         onclick="activarSelectorImagen(this)">
+                    <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput"
+                           accept="image/jpeg, image/png, image/gif, image/webp"
+                           onchange="visualizarImage(this)">
+                </article>
+            </section>
+
+
+            <section>
+                <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta"
+                         id="contenedorImg4Edit"
+                         th:if="${#lists.size(anuncio.fotos) >= 4}"
+                         onclick="activarSelectorImagen(this)">
+                    <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput"
+                           accept="image/jpeg, image/png, image/gif, image/webp"
+                           onchange="visualizarImage(this)">
+                    <img th:src="'/imagesAnuncio/' + ${anuncio.fotos[3].ruta}" alt="Foto 4" />
+                    <a th:href="@{/anuncios/{id1}/fotos/{id2}/elimina(id1=${anuncio.id}, id2=${anuncio.fotos[3].id})}"
+                       class="cruz-delete-foto">X</a>
+                </article>
+                <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta"
+                         id="contenedorImg4"
+                         th:unless="${#lists.size(anuncio.fotos) >= 4}"
+                         onclick="activarSelectorImagen(this)">
+                    <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput"
+                           accept="image/jpeg, image/png, image/gif, image/webp"
+                           onchange="visualizarImage(this)">
+                </article>
+            </section>
+
+
+            <section>
+                <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta"
+                         id="contenedorImg5Edit"
+                         th:if="${#lists.size(anuncio.fotos) >= 5}"
+                         onclick="activarSelectorImagen(this)">
+                    <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput"
+                           accept="image/jpeg, image/png, image/gif, image/webp"
+                           onchange="visualizarImage(this)">
+                    <img th:src="'/imagesAnuncio/' + ${anuncio.fotos[4].ruta}" alt="Foto 2" />
+                    <a th:href="@{/anuncios/{id1}/fotos/{id2}/elimina(id1=${anuncio.id}, id2=${anuncio.fotos[4].id})}"
+                       class="cruz-delete-foto">X</a>
+                </article>
+                <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta"
+                         id="contenedorImg5"
+                         th:unless="${#lists.size(anuncio.fotos) >= 5}"
+                         onclick="activarSelectorImagen(this)">
+                    <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput"
+                           accept="image/jpeg, image/png, image/gif, image/webp"
+                           onchange="visualizarImage(this)">
+                </article>
+            </section>
+
+
+
         </section>
-        <br>
 
     </legend>
 
 
-    <input type="submit" value="Editar Anuncio">
+    <input type="submit" value="Actualizar Anuncio">
 
 </form>
 
-<form th:action="@{/anuncios/editar/{id}/addfoto(id=${anucio.id})}" method="post" enctype="multipart/form-data" id="formulario-add-foto" hidden="hidden">
-    <input type="file" name="archivoFoto"  id="nuevoArchivo">
-</form>
+
 
 </body>
 <footer>
@@ -77,12 +182,49 @@
 </footer>
 <script>
 
-        document.getElementById("nuevaFoto").addEventListener("click", function () {
-        document.getElementById("nuevoArchivo").click();
-        } );
 
-        document.getElementById("nuevoArchivo").addEventListener("change", function () {
-        document.getElementById("formulario-add-foto").submit();})
+    function activarSelectorImagen(caja) {
+
+
+        caja.querySelector('.seccion__articulo__nuevo__contenedorFotos--fileInput').click();
+    }
+
+    function visualizarImage(input) {
+        const file = input.files[0];
+        const tiposPermitidos = ["image/jpeg", "image/png", "image/gif", "image/webp"];
+
+        if(file && !tiposPermitidos.includes(file.type)){
+            alert("Por favor, selecciona un archivo de imagen válido (JPEG, PNG, GIF o WEBP).");
+        }
+        else {
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+
+                    let img = input.parentElement.querySelector('img');
+                    // Si ya existe una imagen, la reutilizamos; si no, creamos una nueva
+                    if (!img) {
+                        img = document.createElement('img');
+                        input.parentElement.appendChild(img);
+                    }
+
+                    img.src = e.target.result; // Asigna la imagen como fondo de la caja
+                };
+
+                reader.readAsDataURL(file);
+
+
+            } else {    //No ha seleccionado archivo y hay foto la foto
+                let img = input.parentElement.querySelector('img');
+
+                if (img) {
+                    img.remove();
+                }
+            }
+        }
+    }
+
 </script>
 
 </html>

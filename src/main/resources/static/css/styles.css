@@ -180,7 +180,7 @@ body{
 }
 
 .cruz-delete-foto{
-    opacity: 0;
+    opacity: 100;
     position: absolute;
     font-size: 80px;
     color: black;
@@ -190,6 +190,21 @@ body{
     height: 100%;
     width: 100%;
 }
+
+.cruz-delete-foto:hover{
+    opacity: 50%;
+    background-color: red;
+    position: absolute;
+    font-size: 80px;
+    color: black;
+    text-decoration: none;
+    text-align: center;
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+
 .foto:hover .cruz-delete-foto{
     opacity: 0.8;
     border:1px solid #333;

@@ -21,11 +21,11 @@
 
              <label>Titulo: </label><br>
 
-             <input type="text" name="titulo" th:field="${categoria.titulo}" placeholder="Titulo de la categoria"><br>
-
+             <input type="text" name="titulo" id="titulo" th:field="${categoria.titulo}" placeholder="Titulo de la categoria"><br>
+             <span th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}"></span><br>
              <label>Descripcion: </label><br>
 
-             <textarea id="descripcion" name="descripcion" rows="4" cols="50" th:field="*{descripcion}" placeholder="Descripción de la categoría"></textarea><br>
+             <textarea id="descripcion" name="descripcion" rows="4" cols="50" th:field="${categoria.descripcion}" placeholder="Descripción de la categoría"></textarea><br>
 
              <input type="submit" value="Crear Categoria">
          </form>

@@ -133,7 +133,25 @@ public class FotoService {
 
 
     public void eliminarFotosId(long id){
-        fotoAnuncioRepository.deleteById(id);
+        try{
+            String ruta = UPLOADS_DIRECTORY +  File.separator + fotoAnuncioRepository.findById(id).get().getRuta();
+            fotoAnuncioRepository.deleteById(id);
+            eliminarArchivoDelServidor(ruta);
+
+        } catch (Exception e) {
+
+        }
+
+    }
+
+    public void eliminarArchivoDelServidor(String ruta){
+        Path rutaElimina = Paths.get(ruta);
+        try {
+            Files.delete(rutaElimina);
+        } catch (IOException e) {
+
+        }
+
     }
 
 

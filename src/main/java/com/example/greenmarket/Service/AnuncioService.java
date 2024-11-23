@@ -34,6 +34,9 @@ public class AnuncioService {
         anuncio.setFechaCreacion(fechaAnuncio);
         return anuncioRepository.save(anuncio) != null;
     }
+    public boolean actualizaAnuncio(Anuncio anuncio){
+        return anuncioRepository.save(anuncio) != null;
+    }
 
     public void bajaAnuncioId(long id){
 

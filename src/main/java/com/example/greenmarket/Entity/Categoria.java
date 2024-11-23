@@ -1,6 +1,7 @@
 package com.example.greenmarket.Entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,10 +19,14 @@ import java.util.List;
 public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
+
+    @NotEmpty(message = "El título no puede estar en blanco")
+    @Column(nullable = false)
     private String titulo;
+
     private String descripcion;
+
     @OneToMany(targetEntity = Anuncio.class, cascade = CascadeType.ALL,
             mappedBy = "categoria")
     private List<Anuncio> anuncios = new ArrayList<>();

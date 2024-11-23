@@ -11,12 +11,9 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.service.annotation.GetExchange;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,6 +41,7 @@ public class AnuncioController {
     @GetMapping("/anuncios/nuevo")
     public String getAnunciosNuevo(Model model){
         Anuncio anuncio = new Anuncio();
+        anuncio.setPrecio(0.0);
         List<Categoria> categorias = categoriaService.getAllCategorias();
         model.addAttribute("anuncio", anuncio);
         model.addAttribute("categorias", categorias);
@@ -52,7 +50,11 @@ public class AnuncioController {
     }
 
     @PostMapping("/anuncios/nuevo")
-    public String getAnunciosNuevoInserta(@Valid Anuncio anuncio, Model model , @RequestParam(value = "archivosFotos", required = false) List<MultipartFile> fotos){
+    public String getAnunciosNuevoInserta(@Valid Anuncio anuncio , BindingResult bindingResult  , @RequestParam(value = "archivosFotos", required = false) List<MultipartFile> fotos){
+
+        if (bindingResult.hasErrors()) {
+            return "anuncio-nuevo";
+        }
 
         fotoService.guardarFotos(fotos, anuncio);
         anuncioService.altaAnuncio(anuncio);
@@ -80,27 +82,30 @@ public class AnuncioController {
 
     @GetMapping("/anuncios/editar/{id}")
     public String getAnuncioEditar(@PathVariable Long id, Model model){
+        try{
+            Anuncio anuncio = new Anuncio();
+            anuncio = anuncioService.getAnuncioId(id);
+            model.addAttribute("anuncio", anuncio );
+            return "anuncio-editar";
 
-        Anuncio anuncio = new Anuncio();
-        anuncio = anuncioService.getAnuncioId(id);
-        model.addAttribute("anuncio", anuncio );
-
-        return "anuncio-editar";
-    }
-
-    @PostMapping("/anuncios/editar/{id}/addfoto")
-
-    public String addFoto(@PathVariable("id") Long idFoto, Model model,
-                          @RequestParam(value = "archivoFoto") MultipartFile archivoFoto) {
-
-        Optional<Anuncio> anuncio = anuncioService.dameAnuncioPorIdFoto(idFoto);
-
-        if(anuncio.isPresent()){
-
-            fotoService.guardarFotos((List<MultipartFile>) archivoFoto, anuncio.get());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
-        return "redirect:/anuncios/editar/" + anuncio.get().getId();
+
+
+    }
+
+    @PostMapping("/anuncios/editar/{id}")
+    public String getAnunciosEditarActualiza(@Valid Anuncio anuncio , BindingResult bindingResult  , @PathVariable Long id, @RequestParam(value = "archivosFotos", required = false) List<MultipartFile> fotos){
+
+        if (bindingResult.hasErrors()) {
+            return "anuncio-editar";
+        }
+        anuncio.setId(id);
+        fotoService.guardarFotos(fotos, anuncio);
+        anuncioService.actualizaAnuncio(anuncio);
+        return "redirect:/";
     }
 
 
