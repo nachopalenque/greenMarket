@@ -20,6 +20,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+import java.util.concurrent.TimeUnit;
+
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
@@ -43,19 +45,33 @@ public class SecurityConfig {
 
                 )
 
+
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(
                         form -> form
                                 .loginPage("/")
                                 .loginProcessingUrl("/login")
                                 .defaultSuccessUrl("/anuncios/panel/inicio", true)
+                                .failureUrl("/login?error=true")
                                 .permitAll()
                 )
+
+                .rememberMe(rememberMe ->
+                        rememberMe
+                                .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(5))
+                                .key("remember-me-key")
+                )
+
+
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/")
+                        .logoutSuccessUrl("/login?logout")
                         .permitAll()
-                ) ;
+                );
+
+
+
+
 
         return http.build();
     }

@@ -3,43 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link th:href="@{/css/styles.css}"  rel="stylesheet">
-
+    <!-- Agregar el enlace a Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <title>Categorias</title>
 </head>
 <body>
-<nav>
-    <img src="/images/logo4.png" alt="logo generado por inteligencia artificial">
-    <h1>GreenMarket</h1>
-    <a href="">Todos los anuncios</a>
-    <a href="">Mis anuncios</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <img src="/images/logo4.png" alt="logo generado por inteligencia artificial" width="50">
+    <h1 class="ml-3">GreenMarket</h1>
+    <div class="navbar-nav">
+        <a class="nav-link" href="">Todos los anuncios</a>
+        <a class="nav-link" href="">Mis anuncios</a>
+    </div>
 </nav>
-<main>
-     <section>
 
-         <form th:action="@{/categoria/nuevo}" method="POST" th:object="${categoria}">
-
-             <label>Titulo: </label><br>
-
-             <input type="text" name="titulo" id="titulo" th:field="${categoria.titulo}" placeholder="Titulo de la categoria"><br>
-             <span th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}"></span><br>
-             <label>Descripcion: </label><br>
-
-             <textarea id="descripcion" name="descripcion" rows="4" cols="50" th:field="${categoria.descripcion}" placeholder="Descripción de la categoría"></textarea><br>
-
-             <input type="submit" value="Crear Categoria">
-         </form>
-
-
-     </section>
-
+<main class="container mt-5">
+    <section>
+        <form th:action="@{/categoria/nuevo}" method="POST" th:object="${categoria}">
+            <section class="form-group">
+                <label for="titulo">Título:</label>
+                <input type="text" name="titulo" id="titulo" th:field="${categoria.titulo}" class="form-control" placeholder="Titulo de la categoría">
+                <span th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}" class="text-danger"></span>
+            </section>
+            <section class="form-group">
+                <label for="descripcion">Descripción:</label>
+                <textarea id="descripcion" name="descripcion" rows="4" cols="50" th:field="${categoria.descripcion}" class="form-control" placeholder="Descripción de la categoría"></textarea>
+            </section>
+            <button type="submit" class="btn btn-primary">Crear Categoria</button>
+        </form>
+    </section>
 </main>
 
 
+<!-- Agregar los scripts de Bootstrap -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
-<footer>
-
-    <strong>Desarrollado por Nacho Palenque</strong>
-
-</footer>
 </html>

@@ -28,10 +28,10 @@
                     <a th:href="@{/}" class="btn btn-outline-primary me-3">Todos los anuncios</a>
                 </li>
                 <li class="nav-item">
-                    <a th:if="${usuario.rol == 'ROLE_ADMIN'}" th:href="@{/categoria-nueva}" class="btn btn-outline-success">Crear categoría</a>
+                    <a th:if="${usuario.rol == 'ROLE_ADMIN'}" th:href="@{/categoria/nuevo}" class="btn btn-outline-success">Crear categoría</a>
                 </li>
                 <li class="nav-item">
-                    <input type="button" value="Cerrar Sesión" name="iniciar" class="btn btn-outline-primary me-3" th:onclick="|window.location.href='@{/login}'|">
+                    <input type="button" value="Cerrar Sesión" name="iniciar" class="btn btn-outline-primary me-3" th:onclick="|window.location.href='@{/logout}'|">
                 </li>
 
             </ul>
