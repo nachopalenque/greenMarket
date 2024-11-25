@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/styles.css}" rel="stylesheet"> <!-- Si tienes tu CSS personalizado -->
+    <title>Panel del usuario</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <section class="container-fluid">
+        <img src="/images/logo4.png" alt="logo generado por inteligencia artificial" class="navbar-brand" width="150">
+        <h1 class="navbar-brand">GreenMarket</h1>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <section>
+        </section>
+
+        <section class="collapse navbar-collapse" id="navbarNav">
+
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <p th:text="'Bienvenido ' + ${usuario.nombre}"></p>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/}" class="btn btn-outline-primary me-3">Todos los anuncios</a>
+                </li>
+                <li class="nav-item">
+                    <a th:if="${usuario.rol == 'ROLE_ADMIN'}" th:href="@{/categoria-nueva}" class="btn btn-outline-success">Crear categoría</a>
+                </li>
+                <li class="nav-item">
+                    <input type="button" value="Cerrar Sesión" name="iniciar" class="btn btn-outline-primary me-3" th:onclick="|window.location.href='@{/login}'|">
+                </li>
+
+            </ul>
+        </section>
+    </section>
+</nav>
+
+
+
+
+
+<main class="container mt-5">
+    <!-- Sección de bienvenida -->
+
+
+    <!-- Sección de creación de anuncio -->
+    <section class="mt-4">
+        <article>
+            <form th:action="@{/anuncios/nuevo}" method="GET" th:object="${usuario}">
+                <input type="submit" value="Crear nuevo anuncio" class="btn btn-primary">
+            </form>
+        </article>
+    </section>
+
+    <!-- Tabla de anuncios -->
+    <section class="seccion__tabla__anuncios mt-4">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Anuncio</th>
+                <th>Precio</th>
+                <th>Fecha Creación</th>
+                <th>Acción</th>
+            </tr>
+            </thead>
+            <tbody>
+            <p class="seccion__anuncios--p" th:if="${#lists.isEmpty(anuncios)}">No hay anuncios.</p>
+            <tr th:each="anuncio : ${anuncios}">
+                <td th:text="${anuncio.titulo}"></td>
+                <td th:text="${anuncio.precio}"></td>
+                <td th:text="${anuncio.fechaCreacion}"></td>
+                <td>
+                    <button th:onclick="|window.location.href='@{/anuncios/ver/{id}(id=${anuncio.id})}'|" class="btn btn-info btn-sm me-2">Ver</button>
+                    <button th:onclick="|window.location.href='@{/anuncios/editar/{id}(id=${anuncio.id})}'|" class="btn btn-warning btn-sm me-2">Editar</button>
+                    <button th:onclick="|window.location.href='@{/anuncios/borrar/{id}(id=${anuncio.id})}'|" class="btn btn-danger btn-sm">Eliminar</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+
+<!-- Enlace a la CDN de Bootstrap JS (opcional si necesitas interacción) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

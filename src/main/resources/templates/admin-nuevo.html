@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:href="@{/css/styles.css}"  rel="stylesheet">
+    <title>Formulario de registro de usuarios</title>
+</head>
+<body>
+<nav>
+    <img src="/images/logo4.png" alt="logo generado por inteligencia artificial">
+    <h1>GreenMarket</h1>
+    <a th:ref="/anuncios-lista/">Todos los anuncios</a>
+</nav>
+
+<main>
+
+    <h1>Formulario de registro de usuario: </h1>
+
+    <section>
+        <form th:action="@{/admin/registro}" method="POST" th:object="${usuario}">
+
+            <label>Nombre: </label><br>
+            <input type="text" name="nombre" th:value="${usuario.nombre}" placeholder="Nombre de usuario"><br>
+
+            <label>Contraseña: </label><br>
+            <input type="password" name="contraseña" th:value="${usuario.password}" placeholder="Contraseña"><br>
+            <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span><br>
+
+            <label>Email: </label><br>
+            <input type="email" name="email" th:value="${usuario.email}" placeholder="Email"><br>
+            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span><br>
+
+            <label>Telefono: </label><br>
+            <input type="number" name="telefono" th:value="${usuario.telefono}" placeholder="Telefono"><br>
+
+            <label>Poblacion: </label><br>
+            <input type="text" name="poblacion" th:value="${usuario.poblacion}" placeholder="Poblacion"><br>
+
+            <input type="submit" value="Registrar">
+            <input type="reset" value="Limpiar">
+
+        </form>
+
+    </section>
+
+</main>
+
+</body>
+
+<footer>
+
+    <strong>Desarrollado por Nacho Palenque</strong>
+
+</footer>
+</html>

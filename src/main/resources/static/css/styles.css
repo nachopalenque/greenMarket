@@ -154,30 +154,6 @@ body{
 }
 
 
-.seccion__anuncio__ver__casilla__contenido{
-    padding: 0;
-    position: fixed;
-    justify-content: left;
-    display: flex;
-    width: 1000px;
-    height: 300px;
-    margin: 10px 20px 0px; /* Centrado horizontal y un margen superior */
-}
-
-.seccion__anuncio__ver__casilla__contenido--imagen{
-    width: 200px;
-    flex-grow: 20px;
-    object-fit: cover;
-    transition: 2s ease;
-    border: 1px solid rgb(0, 0, 0);
-    border-radius: 10px;
-}
-
-.seccion__anuncio__ver__casilla__contenido--imagen:hover{
-    cursor: crosshair;
-    width: 300px;
-    filter: contrast(128%);
-}
 
 .cruz-delete-foto{
     opacity: 100;
@@ -209,4 +185,87 @@ body{
     opacity: 0.8;
     border:1px solid #333;
     background-color: rgba(0, 0, 0, 0.4);
+}
+
+
+seccion__tabla__anuncios {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Hace que el contenedor ocupe toda la altura de la pantalla */
+}
+
+/* Estilos para la tabla */
+seccion__tabla__anuncios--tabla {
+    border-collapse: collapse;
+    width: 80%; /* Ajusta el tamaño de la tabla */
+    max-width: 1000px; /* Opcional: establece un ancho máximo para la tabla */
+    margin-top: 20px; /* Para un pequeño espacio desde el top */
+    background-color: #fff; /* Color de fondo blanco */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra sutil para la tabla */
+    border-radius: 8px; /* Bordes redondeados */
+    overflow: hidden; /* Para que los bordes redondeados no se corten */
+}
+
+/* Estilos para los encabezados de la tabla */
+seccion__tabla__anuncios--tabla--th {
+    background-color: #4CAF50; /* Fondo verde para los encabezados */
+    color: white; /* Texto en blanco */
+    padding: 12px 15px; /* Espaciado dentro de las celdas */
+    text-align: left; /* Alineación del texto a la izquierda */
+    font-weight: bold; /* Negrita en los encabezados */
+}
+
+/* Estilos para las celdas de la tabla */
+seccion__tabla__anuncios--tabla--td {
+    padding: 12px 15px; /* Espaciado dentro de las celdas */
+    text-align: left; /* Alineación del texto a la izquierda */
+    border-bottom: 1px solid #ddd; /* Línea de separación entre las filas */
+}
+
+/* Estilo para las filas alternadas */
+seccion__tabla__anuncios--tabla tr:nth-child(even) {
+    background-color: #f9f9f9; /* Color de fondo alternativo para las filas */
+}
+
+/* Estilos para los botones dentro de la tabla */
+seccion__tabla__anuncios__tabla--botonVer {
+    background-color: dodgerblue;
+    color: white; /* Texto en blanco */
+    border: none;
+    padding: 8px 16px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 4px; /* Bordes redondeados */
+    transition: background-color 0.3s ease;
+}
+seccion__tabla__anuncios__tabla--botonEditar {
+    background-color: green;
+    color: white; /* Texto en blanco */
+    border: none;
+    padding: 8px 16px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 4px; /* Bordes redondeados */
+    transition: background-color 0.3s ease;
+}
+
+seccion__tabla__anuncios__tabla--botonEliminar {
+    background-color: red;
+    color: white; /* Texto en blanco */
+    border: none;
+    padding: 8px 16px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 4px; /* Bordes redondeados */
+    transition: background-color 0.3s ease;
+}
+
+
+
+seccion__anuncios--p {
+    text-align: center;
+    font-size: 18px;
+    color: #555;
+    margin-top: 20px;
 }

@@ -1,194 +1,132 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link th:href="@{/css/styles.css}"  rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
     <title>Editar Anuncio</title>
 </head>
 <body>
-<nav>
-    <img src="/images/logo4.png" alt="logo generado por inteligencia artificial">
-    <h1>GreenMarket</h1>
-    <a href="">Todos los anuncios</a>
-    <a href="">Mis anuncios</a>
+
+<!-- Barra de navegación -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light p-3">
+    <section class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="/images/logo4.png" alt="logo generado por inteligencia artificial" width="150">
+            GreenMarket
+        </a>
+        <section class="d-flex ms-auto">
+            <a href="#" class="btn btn-outline-primary me-2">Todos los anuncios</a>
+            <a href="#" class="btn btn-outline-primary">Mis anuncios</a>
+        </section>
+    </section>
 </nav>
 
-<form th:action="@{/anuncios/editar/{id}(id=${anuncio.id})}" method="POST" th:object="${anuncio}"  enctype="multipart/form-data">
+<!-- Formulario para editar el anuncio -->
+<main class="container my-5">
+    <form th:action="@{/anuncios/editar/{id}(id=${anuncio.id})}" method="POST" th:object="${anuncio}" enctype="multipart/form-data">
+        <!-- Título del producto -->
+        <section class="mb-3">
+            <label for="titulo" class="form-label">Título del producto:</label>
+            <input type="text" class="form-control" name="titulo" id="titulo" th:field="*{titulo}" th:value="*{titulo}" placeholder="Título del anuncio">
+            <span th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}" class="text-danger"></span>
+        </section>
 
-    <label for="titulo">Titulo del producto: </label><br>
-    <input type="text" name="titulo" id="titulo"  th:field="*{titulo}" th:value="*{titulo}" placeholder="Titulo del anuncio"><br>
-    <span th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}"></span><br>
+        <!-- Descripción del producto -->
+        <section class="mb-3">
+            <label for="descripcion" class="form-label">Descripción del producto:</label>
+            <textarea id="descripcion" name="descripcion" class="form-control" rows="4" th:field="*{descripcion}" th:value="*{titulo}" placeholder="Descripción del anuncio"></textarea>
+        </section>
 
-    <label for="descripcion">Descripcion del producto: </label><br>
-    <textarea id="descripcion" name="descripcion" rows="4" cols="50" th:field="*{descripcion}"  th:value="*{titulo}"  placeholder="Descripción del anuncio"></textarea><br>
+        <!-- Precio del producto -->
+        <section class="mb-3">
+            <label for="precio" class="form-label">Precio del producto:</label>
+            <input type="number" class="form-control" name="precio" id="precio" th:field="*{precio}" th:value="*{precio}" min="0" step="0.01">
+            <span th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}" class="text-danger"></span>
+        </section>
 
-
-    <label for="precio">Precio del producto: </label><br>
-    <input type="number" name="precio"  id="precio" th:field="*{precio}" th:value="*{precio}"  min="0" step="0.01" ><br>
-    <span th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}"></span><br>
-
-
-
-
-
-
-
-    <legend>
-
-
-        <label>Imagenes del producto: </label><br>
-
-
-
-        <section class="seccion__articulo__nuevo__contenedorFotos" id="contenedorFotos" >
-
+        <!-- Galería de imágenes -->
+        <legend>Imagenes del producto:</legend>
+        <section class="seccion__articulo__nuevo__contenedorFotos row row-cols-3 row-cols-md-4 g-3 p-1">
             <section>
-                <!-- Cuando la lista de fotos tiene al menos 2 elementos -->
-                <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta"
-                         id="contenedorImg1Edit"
-                         th:if="${#lists.size(anuncio.fotos) >= 1}"
-                         onclick="activarSelectorImagen(this)">
-                    <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput"
-                           accept="image/jpeg, image/png, image/gif, image/webp"
-                           onchange="visualizarImage(this)">
+                <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta" id="contenedorImg1Edit" th:if="${#lists.size(anuncio.fotos) >= 1}" onclick="activarSelectorImagen(this)">
+                    <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput" accept="image/jpeg, image/png, image/gif, image/webp" onchange="visualizarImage(this)">
                     <img th:src="'/imagesAnuncio/' + ${anuncio.fotos[0].ruta}" alt="Foto 1" />
-                    <a th:href="@{/anuncios/{id1}/fotos/{id2}/elimina(id1=${anuncio.id}, id2=${anuncio.fotos[0].id})}"
-                       class="cruz-delete-foto">X</a>
+                    <a th:href="@{/anuncios/{id1}/fotos/{id2}/elimina(id1=${anuncio.id}, id2=${anuncio.fotos[0].id})}" class="cruz-delete-foto">X</a>
                 </article>
-
-                <!-- Si la lista de fotos tiene menos de 2 elementos -->
-                <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta"
-                         id="contenedorImg1"
-                         th:unless="${#lists.size(anuncio.fotos) >= 1}"
-                         onclick="activarSelectorImagen(this)">
-                    <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput"
-                           accept="image/jpeg, image/png, image/gif, image/webp"
-                           onchange="visualizarImage(this)">
+                <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta" id="contenedorImg1" th:unless="${#lists.size(anuncio.fotos) >= 1}" onclick="activarSelectorImagen(this)">
+                    <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput" accept="image/jpeg, image/png, image/gif, image/webp" onchange="visualizarImage(this)">
                 </article>
             </section>
 
-
-
             <section>
-                <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta"
-                         id="contenedorImg2Edit"
-                         th:if="${#lists.size(anuncio.fotos) >= 2}"
-                         onclick="activarSelectorImagen(this)">
-                    <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput"
-                           accept="image/jpeg, image/png, image/gif, image/webp"
-                           onchange="visualizarImage(this)">
+                <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta" id="contenedorImg2Edit" th:if="${#lists.size(anuncio.fotos) >= 2}" onclick="activarSelectorImagen(this)">
+                    <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput" accept="image/jpeg, image/png, image/gif, image/webp" onchange="visualizarImage(this)">
                     <img th:src="'/imagesAnuncio/' + ${anuncio.fotos[1].ruta}" alt="Foto 2" />
-                    <a th:href="@{/anuncios/{id1}/fotos/{id2}/elimina(id1=${anuncio.id}, id2=${anuncio.fotos[1].id})}"
-                       class="cruz-delete-foto">X</a>
+                    <a th:href="@{/anuncios/{id1}/fotos/{id2}/elimina(id1=${anuncio.id}, id2=${anuncio.fotos[1].id})}" class="cruz-delete-foto">X</a>
                 </article>
-                <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta"
-                         id="contenedorImg2"
-                         th:unless="${#lists.size(anuncio.fotos) >= 2}"
-                         onclick="activarSelectorImagen(this)">
-                    <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput"
-                           accept="image/jpeg, image/png, image/gif, image/webp"
-                           onchange="visualizarImage(this)">
+                <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta" id="contenedorImg2" th:unless="${#lists.size(anuncio.fotos) >= 2}" onclick="activarSelectorImagen(this)">
+                    <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput" accept="image/jpeg, image/png, image/gif, image/webp" onchange="visualizarImage(this)">
                 </article>
             </section>
 
-
+            <!-- Repetir el mismo patrón para las siguientes imágenes -->
             <section>
-                <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta"
-                         id="contenedorImg3Edit"
-                         th:if="${#lists.size(anuncio.fotos) >= 3}"
-                         onclick="activarSelectorImagen(this)">
-                    <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput"
-                           accept="image/jpeg, image/png, image/gif, image/webp"
-                           onchange="visualizarImage(this)">
+                <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta" id="contenedorImg3Edit" th:if="${#lists.size(anuncio.fotos) >= 3}" onclick="activarSelectorImagen(this)">
+                    <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput" accept="image/jpeg, image/png, image/gif, image/webp" onchange="visualizarImage(this)">
                     <img th:src="'/imagesAnuncio/' + ${anuncio.fotos[2].ruta}" alt="Foto 3" />
-                    <a th:href="@{/anuncios/{id1}/fotos/{id2}/elimina(id1=${anuncio.id}, id2=${anuncio.fotos[2].id})}"
-                       class="cruz-delete-foto">X</a>
+                    <a th:href="@{/anuncios/{id1}/fotos/{id2}/elimina(id1=${anuncio.id}, id2=${anuncio.fotos[2].id})}" class="cruz-delete-foto">X</a>
                 </article>
-                <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta"
-                         id="contenedorImg3"
-                         th:unless="${#lists.size(anuncio.fotos) >= 3}"
-                         onclick="activarSelectorImagen(this)">
-                    <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput"
-                           accept="image/jpeg, image/png, image/gif, image/webp"
-                           onchange="visualizarImage(this)">
+                <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta" id="contenedorImg3" th:unless="${#lists.size(anuncio.fotos) >= 3}" onclick="activarSelectorImagen(this)">
+                    <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput" accept="image/jpeg, image/png, image/gif, image/webp" onchange="visualizarImage(this)">
                 </article>
             </section>
 
-
             <section>
-                <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta"
-                         id="contenedorImg4Edit"
-                         th:if="${#lists.size(anuncio.fotos) >= 4}"
-                         onclick="activarSelectorImagen(this)">
-                    <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput"
-                           accept="image/jpeg, image/png, image/gif, image/webp"
-                           onchange="visualizarImage(this)">
+                <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta" id="contenedorImg4Edit" th:if="${#lists.size(anuncio.fotos) >= 4}" onclick="activarSelectorImagen(this)">
+                    <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput" accept="image/jpeg, image/png, image/gif, image/webp" onchange="visualizarImage(this)">
                     <img th:src="'/imagesAnuncio/' + ${anuncio.fotos[3].ruta}" alt="Foto 4" />
-                    <a th:href="@{/anuncios/{id1}/fotos/{id2}/elimina(id1=${anuncio.id}, id2=${anuncio.fotos[3].id})}"
-                       class="cruz-delete-foto">X</a>
+                    <a th:href="@{/anuncios/{id1}/fotos/{id2}/elimina(id1=${anuncio.id}, id2=${anuncio.fotos[3].id})}" class="cruz-delete-foto">X</a>
                 </article>
-                <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta"
-                         id="contenedorImg4"
-                         th:unless="${#lists.size(anuncio.fotos) >= 4}"
-                         onclick="activarSelectorImagen(this)">
-                    <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput"
-                           accept="image/jpeg, image/png, image/gif, image/webp"
-                           onchange="visualizarImage(this)">
+                <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta" id="contenedorImg4" th:unless="${#lists.size(anuncio.fotos) >= 4}" onclick="activarSelectorImagen(this)">
+                    <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput" accept="image/jpeg, image/png, image/gif, image/webp" onchange="visualizarImage(this)">
                 </article>
             </section>
-
 
             <section>
-                <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta"
-                         id="contenedorImg5Edit"
-                         th:if="${#lists.size(anuncio.fotos) >= 5}"
-                         onclick="activarSelectorImagen(this)">
-                    <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput"
-                           accept="image/jpeg, image/png, image/gif, image/webp"
-                           onchange="visualizarImage(this)">
-                    <img th:src="'/imagesAnuncio/' + ${anuncio.fotos[4].ruta}" alt="Foto 2" />
-                    <a th:href="@{/anuncios/{id1}/fotos/{id2}/elimina(id1=${anuncio.id}, id2=${anuncio.fotos[4].id})}"
-                       class="cruz-delete-foto">X</a>
+                <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta" id="contenedorImg5Edit" th:if="${#lists.size(anuncio.fotos) >= 5}" onclick="activarSelectorImagen(this)">
+                    <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput" accept="image/jpeg, image/png, image/gif, image/webp" onchange="visualizarImage(this)">
+                    <img th:src="'/imagesAnuncio/' + ${anuncio.fotos[4].ruta}" alt="Foto 5" />
+                    <a th:href="@{/anuncios/{id1}/fotos/{id2}/elimina(id1=${anuncio.id}, id2=${anuncio.fotos[4].id})}" class="cruz-delete-foto">X</a>
                 </article>
-                <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta"
-                         id="contenedorImg5"
-                         th:unless="${#lists.size(anuncio.fotos) >= 5}"
-                         onclick="activarSelectorImagen(this)">
-                    <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput"
-                           accept="image/jpeg, image/png, image/gif, image/webp"
-                           onchange="visualizarImage(this)">
+                <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta" id="contenedorImg5" th:unless="${#lists.size(anuncio.fotos) >= 5}" onclick="activarSelectorImagen(this)">
+                    <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput" accept="image/jpeg, image/png, image/gif, image/webp" onchange="visualizarImage(this)">
                 </article>
             </section>
-
-
 
         </section>
 
-    </legend>
+        <!-- Botón para actualizar el anuncio -->
+        <section class="mt-3">
+            <input type="submit" value="Actualizar Anuncio" class="btn btn-primary">
+        </section>
+    </form>
+
+    <footer class="bg-light text-center py-3">
+        <strong>Desarrollado por Nacho Palenque</strong>
+    </footer>
+</main>
 
 
-    <input type="submit" value="Actualizar Anuncio">
 
-</form>
-
-
-
-</body>
-<footer>
-
-    <strong>Desarrollado por Nacho Palenque</strong>
-
-</footer>
 <script>
-
-
+    // Función para activar el selector de imágenes
     function activarSelectorImagen(caja) {
-
-
         caja.querySelector('.seccion__articulo__nuevo__contenedorFotos--fileInput').click();
     }
 
+    // Función para visualizar la imagen seleccionada
     function visualizarImage(input) {
         const file = input.files[0];
         const tiposPermitidos = ["image/jpeg", "image/png", "image/gif", "image/webp"];
@@ -201,30 +139,25 @@
                 const reader = new FileReader();
 
                 reader.onload = function (e) {
-
                     let img = input.parentElement.querySelector('img');
-                    // Si ya existe una imagen, la reutilizamos; si no, creamos una nueva
                     if (!img) {
                         img = document.createElement('img');
                         input.parentElement.appendChild(img);
                     }
 
-                    img.src = e.target.result; // Asigna la imagen como fondo de la caja
+                    img.src = e.target.result; // Asigna la imagen seleccionada
                 };
 
                 reader.readAsDataURL(file);
-
-
-            } else {    //No ha seleccionado archivo y hay foto la foto
+            } else {
                 let img = input.parentElement.querySelector('img');
-
                 if (img) {
-                    img.remove();
+                    img.remove(); // Elimina la imagen si no se selecciona ninguna
                 }
             }
         }
     }
-
 </script>
 
+</body>
 </html>
