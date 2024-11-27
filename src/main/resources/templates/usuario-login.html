@@ -31,6 +31,10 @@
         Usuario o contraseña no válidos.
     </section>
 
+    <section th:if="${usuarioRegistrado}!=''" class="alert alert-info">
+        <p class="text-center" th:text="'Se ha registrado correctamente el usuario: ' + ${usuarioRegistrado}"></p><br>
+        <p class="text-center">ya puede logearse para empezar a publicar anuncios</p>
+    </section>
 
     <!-- Formulario de inicio de sesión -->
     <form th:action="@{/login}" method="post" class="p-4 border rounded shadow-sm">

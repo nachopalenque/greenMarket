@@ -2,6 +2,7 @@ package com.example.greenmarket.Service;
 
 import com.example.greenmarket.Entity.Usuario;
 import com.example.greenmarket.Repository.UsuarioRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -37,6 +38,19 @@ public class UsuarioServicio {
         }
 
         return new Usuario();
+    }
+
+    public void eliminarHttpSessions(HttpSession session){
+
+        if (session.getAttribute("categoria") != null){
+            session.removeAttribute("categoria");
+        }
+
+        if (session.getAttribute("anuncio") != null){
+            session.removeAttribute("anuncio");
+        }
+
+
     }
 
 }

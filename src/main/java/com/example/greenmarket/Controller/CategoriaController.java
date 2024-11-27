@@ -6,6 +6,7 @@ import com.example.greenmarket.Entity.Usuario;
 import com.example.greenmarket.Repository.UsuarioRepository;
 import com.example.greenmarket.Service.CategoriaService;
 import com.example.greenmarket.Service.UsuarioServicio;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,14 +27,17 @@ public class CategoriaController {
     UsuarioServicio usuarioServicio;
 
     @GetMapping("/categoria/nuevo")
-    public String nuevaCategoria(Model model) {
+    public String nuevaCategoria(Model model, HttpSession session) {
 
+        if (session.getAttribute("categoria") != null){
+            session.removeAttribute("categoria");
+        }
         model.addAttribute("categoria", new Categoria());
         return "categoria-nuevo";
     }
 
     @PostMapping("/categoria/nuevo")
-    public String nuevoCategoriaInserta(@Valid @ModelAttribute Categoria categoria, BindingResult bindingResult, Principal principal, Model model) {
+    public String nuevoCategoriaInserta(@Valid @ModelAttribute Categoria categoria, BindingResult bindingResult, Principal principal, Model model, HttpSession session) {
 
         if(bindingResult.hasErrors()){
 
@@ -43,9 +47,10 @@ public class CategoriaController {
         categoriaService.altaCategoria(categoria);
         String username = principal.getName();
         Usuario usuario = usuarioServicio.dameUsuarioPorEmail(username);
-        // Obtén los anuncios del usuario
         List<Anuncio> anuncios = usuario.getAnuncios();
-        // Agrega los anuncios y el usuario al modelo
+
+        session.setAttribute("categoria", categoria.getTitulo());
+
         model.addAttribute("usuario", usuario);
         model.addAttribute("anuncios", anuncios);
         return "redirect:/anuncios/panel/inicio";

@@ -10,6 +10,8 @@ import com.example.greenmarket.Service.AnuncioService;
 import com.example.greenmarket.Service.CategoriaService;
 import com.example.greenmarket.Service.FotoService;
 import com.example.greenmarket.Service.UsuarioServicio;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -38,12 +40,13 @@ public class AnuncioController {
     private UsuarioServicio usuarioServicio;
 
     @GetMapping("/")
-    public String getAnuncios(Model model, Principal principal){
+    public String getAnuncios(Model model, HttpSession session) {
 
-        if (principal != null) {
-            String username = principal.getName();
-            Usuario usuario = usuarioServicio.dameUsuarioPorEmail(username);
-            model.addAttribute("usuario", usuario.toString());
+        usuarioServicio.eliminarHttpSessions(session);
+
+        if (session.getAttribute("usuarioLogeado") != null) {
+
+            model.addAttribute("usuario", session.getAttribute("usuarioLogeado"));
         }
         else{
             model.addAttribute("usuario", "");
@@ -69,15 +72,30 @@ public class AnuncioController {
     }
 
     @GetMapping("/anuncios/panel/inicio")
-    public String getUsuarioPanel(Model model, Principal principal) {
+    public String getUsuarioPanel(Model model, Principal principal, HttpSession session) {
         String username = principal.getName();
         Usuario usuario = usuarioServicio.dameUsuarioPorEmail(username);
+        session.setAttribute("usuarioLogeado", usuario.getNombre());
+
         // Obtén los anuncios del usuario
         List<Anuncio> anuncios = usuario.getAnuncios();
         // Agrega los anuncios y el usuario al modelo
         model.addAttribute("usuario", usuario);
         model.addAttribute("anuncios", anuncios);
 
+        if (session.getAttribute("categoria") != null){
+            model.addAttribute("categoriaNueva",session.getAttribute("categoria"));
+
+        }else{
+            model.addAttribute("categoriaNueva", "");
+        }
+
+        if (session.getAttribute("anuncio") != null){
+            model.addAttribute("anuncioNuevo",session.getAttribute("anuncio"));
+
+        }else{
+            model.addAttribute("anuncioNuevo", "");
+        }
         return "usuario-panel";
     }
 
@@ -87,7 +105,7 @@ public class AnuncioController {
 
 
     @GetMapping("/anuncios/nuevo")
-    public String getAnunciosNuevo(Model model, Principal principal){
+    public String getAnunciosNuevo(Model model, Principal principal, HttpSession session){
 
         String username = principal.getName();
         Usuario usuario = usuarioServicio.dameUsuarioPorEmail(username);
@@ -98,12 +116,13 @@ public class AnuncioController {
         model.addAttribute("usuario", usuario);
         model.addAttribute("anuncio", anuncio);
         model.addAttribute("categorias", categorias);
+        usuarioServicio.eliminarHttpSessions(session);
 
         return "anuncio-nuevo";
     }
 
     @PostMapping("/anuncios/nuevo")
-    public String getAnunciosNuevoInserta(@Valid Anuncio anuncio , BindingResult bindingResult  , @RequestParam(value = "archivosFotos", required = false) List<MultipartFile> fotos, Principal principal, Model model){
+    public String getAnunciosNuevoInserta(@Valid Anuncio anuncio , BindingResult bindingResult  , @RequestParam(value = "archivosFotos", required = false) List<MultipartFile> fotos, Principal principal, Model model, HttpSession session){
 
         if (bindingResult.hasErrors()) {
             return "anuncio-nuevo";
@@ -121,6 +140,9 @@ public class AnuncioController {
 
         model.addAttribute("usuario", usuario);
         model.addAttribute("anuncios", anuncios);
+
+        session.setAttribute("anuncio", anuncio.getTitulo());
+
         return "redirect:/anuncios/panel/inicio";
 
     }

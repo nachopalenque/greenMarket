@@ -33,6 +33,14 @@
 
 <main class="container mt-5">
 
+    <section th:if="${anuncioNuevo}!=''" class="alert alert-success">
+        <p class="text-center" th:text="'Se ha registrado correctamente el anuncio : ' + ${anuncioNuevo}"></p><br>
+    </section>
+
+    <section th:if="${categoriaNueva}!=''" class="alert alert-success">
+        <p class="text-center" th:text="'Se ha registrado correctamente la categoría : ' + ${categoriaNueva}"></p><br>
+    </section>
+
     <h1 class="text-center" th:text="'Bienvenido Usuario: ' + ${usuario.nombre}"></h1>
 
     <section class="mt-4">
