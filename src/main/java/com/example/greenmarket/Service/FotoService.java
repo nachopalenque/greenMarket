@@ -126,6 +126,8 @@ public class FotoService {
         Anuncio anuncio = anuncioRepository.findById(id_Anuncio).get();
         List<Foto> fotos = fotoAnuncioRepository.findByAnuncio(anuncio);
         for (Foto fotoDelete : fotos ) {
+            //eliminar fotos del servidor
+            eliminarFotosId(fotoDelete.getId());
             fotoAnuncioRepository.delete(fotoDelete);
         }
 

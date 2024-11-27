@@ -1,7 +1,11 @@
 package com.example.greenmarket.Controller;
 
+import com.example.greenmarket.Entity.Anuncio;
 import com.example.greenmarket.Entity.Categoria;
+import com.example.greenmarket.Entity.Usuario;
+import com.example.greenmarket.Repository.UsuarioRepository;
 import com.example.greenmarket.Service.CategoriaService;
+import com.example.greenmarket.Service.UsuarioServicio;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,10 +15,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.security.Principal;
+import java.util.List;
+
 @Controller
 public class CategoriaController {
     @Autowired
     CategoriaService categoriaService;
+    @Autowired
+    UsuarioServicio usuarioServicio;
 
     @GetMapping("/categoria/nuevo")
     public String nuevaCategoria(Model model) {
@@ -24,7 +33,7 @@ public class CategoriaController {
     }
 
     @PostMapping("/categoria/nuevo")
-    public String nuevoCategoriaInserta(@Valid @ModelAttribute Categoria categoria, BindingResult bindingResult) {
+    public String nuevoCategoriaInserta(@Valid @ModelAttribute Categoria categoria, BindingResult bindingResult, Principal principal, Model model) {
 
         if(bindingResult.hasErrors()){
 
@@ -32,6 +41,13 @@ public class CategoriaController {
         }
 
         categoriaService.altaCategoria(categoria);
-        return "redirect:/";
+        String username = principal.getName();
+        Usuario usuario = usuarioServicio.dameUsuarioPorEmail(username);
+        // Obtén los anuncios del usuario
+        List<Anuncio> anuncios = usuario.getAnuncios();
+        // Agrega los anuncios y el usuario al modelo
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("anuncios", anuncios);
+        return "redirect:/anuncios/panel/inicio";
     }
 }

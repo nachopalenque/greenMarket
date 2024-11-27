@@ -16,23 +16,29 @@
     </style>
 </head>
 <body>
-<!-- Barra de navegación -->
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light p-3">
-    <div class="container-fluid">
-        <img src="/images/logo4.png" alt="logo generado por inteligencia artificial" class="navbar-brand" width="150">
-        <h1 class="navbar-brand">GreenMarket</h1>
-        <div class="d-flex ms-auto">
-            <a th:href="@{/}"  class="btn btn-outline-primary me-2">Todos los anuncios</a>
-            <a href="#" class="btn btn-outline-primary">Mis anuncios</a>
-        </div>
-    </div>
+    <section class="container-fluid">
+
+        <img src="/images/logo4.png" alt="logo generado por inteligencia artificial" width="150">
+        <h1 class="ml-3">GreenMarket</h1>
+
+        <section class="d-flex ms-auto">
+            <button th:onclick="|window.location.href='@{/}'|" class="btn btn-outline-secondary me-3">Todos los anuncios</button>
+            <button th:onclick="|window.location.href='@{/anuncios/panel/inicio}'|" class="btn btn-outline-primary">Mis Anuncios</button>
+            <button th:onclick="|window.location.href='@{/logout}'|" class="btn btn-outline-danger">Cerrar Sesión</button>
+
+        </section>
+    </section>
+
 </nav>
+
 
 <!-- Contenido principal -->
 <main class="container my-5">
     <!-- Título y descripción del producto -->
     <section class="mb-4">
-        <h1 th:text="'Título del producto: ' + ${anuncio.titulo} + ' | Precio: ' + ${anuncio.precio}" class="display-4"></h1>
+        <h1 th:text="'Título del producto: ' + ${anuncio.titulo} + ' | Precio: ' + ${anuncio.precio}+'€'" class="display-4"></h1>
         <p th:text="'Descripción: ' + ${anuncio.descripcion}" class="lead"></p>
     </section>
 

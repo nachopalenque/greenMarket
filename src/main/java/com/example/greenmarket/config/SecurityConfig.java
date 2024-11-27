@@ -19,6 +19,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 
 import java.util.concurrent.TimeUnit;
 
@@ -35,8 +36,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) -> authorize
 
                         .requestMatchers("/login","/", "/registro","/admin/registro","/anuncios/ver/**" ,"/css/**", "/js/**", "/imagesAnuncio/**","/images/**" , "/fonts/**").permitAll() // Permitir acceso sin logueo
-                        // Rutas que requieren roles específicos
                         .requestMatchers("/anuncios/**").permitAll()
+                        .requestMatchers("/logout").permitAll()
+                        .requestMatchers("/acceso-denegado").permitAll()
                         .requestMatchers("/anuncios/nuevo/**").permitAll()
                         .requestMatchers("/anuncios/editar/**").permitAll()
                         .requestMatchers("/anuncios/borrar/**").permitAll()
@@ -47,6 +49,7 @@ public class SecurityConfig {
 
 
                 .httpBasic(Customizer.withDefaults())
+
                 .formLogin(
                         form -> form
                                 .loginPage("/")
@@ -62,10 +65,16 @@ public class SecurityConfig {
                                 .key("remember-me-key")
                 )
 
-
+                /* para controlar el acceso denegado mediante una vista, pero no me ha funcionado correctamente.
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .accessDeniedHandler(accessDeniedHandler())
+                )
+                */
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout")
+                        .logoutSuccessUrl("/?logout=true")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
                         .permitAll()
                 );
 
@@ -73,8 +82,22 @@ public class SecurityConfig {
 
 
 
+
+
         return http.build();
     }
+
+    /* Para controlar el acceso denegado en una vista.
+      @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return (request, response, accessDeniedException) -> {
+            response.sendRedirect("/acceso-denegado");
+        };
+    }
+
+     */
+
+
 
     /*
     @Bean

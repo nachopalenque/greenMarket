@@ -1,10 +1,7 @@
 package com.example.greenmarket.Entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -35,7 +32,8 @@ public class Usuario {
     private String password;
 
 
-    @NotNull(message = "El email es obligatorio")
+    @NotBlank(message = "El campo email no puede estar vacío.")
+    @Email(message = "El campo email no tiene un formato correcto.")
     @Column(unique = true, nullable = false)
     private String email;
 

@@ -13,20 +13,26 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light p-3">
     <section class="container-fluid">
 
-            <img src="/images/logo4.png" alt="logo generado por inteligencia artificial" width="150">
-            GreenMarket
+        <img src="/images/logo4.png" alt="logo generado por inteligencia artificial" width="150">
+        <h1 class="ml-3">GreenMarket</h1>
 
         <section class="d-flex ms-auto">
-            <button th:onclick="|window.location.href='@{/}'|" class="btn btn-outline-primary me-2">Todos los anuncios</button>
+            <button th:onclick="|window.location.href='@{/}'|" class="btn btn-outline-secondary me-3">Todos los anuncios</button>
             <button th:onclick="|window.location.href='@{/anuncios/panel/inicio}'|" class="btn btn-outline-primary">Mis Anuncios</button>
+            <button th:onclick="|window.location.href='@{/logout}'|" class="btn btn-outline-danger">Cerrar Sesión</button>
+
         </section>
     </section>
+
 </nav>
+
+
 
 <!-- Formulario para editar el anuncio -->
 <main class="container my-5">
-    <form th:action="@{/anuncios/editar/{id}(id=${anuncio.id})}" method="POST" th:object="${anuncio}" enctype="multipart/form-data">
-        <!-- Título del producto -->
+    <form th:action="@{/anuncios/editar/{id}(id=${anuncio.id})}" method="POST" th:object="${anuncio}" enctype="multipart/form-data" class="p-4 border rounded shadow-sm">
+
+
         <section class="mb-3">
             <label for="titulo" class="form-label">Título del producto:</label>
             <input type="text" class="form-control" name="titulo" id="titulo" th:field="*{titulo}" th:value="*{titulo}" placeholder="Título del anuncio">

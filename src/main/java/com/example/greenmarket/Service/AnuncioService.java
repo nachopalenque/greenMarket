@@ -29,9 +29,7 @@ public class AnuncioService {
         return anuncioRepository.findAll();
     }
     public boolean altaAnuncio(Anuncio anuncio){
-        LocalDate fechaAnuncio = LocalDate.now();
 
-        anuncio.setFechaCreacion(fechaAnuncio);
         return anuncioRepository.save(anuncio) != null;
     }
     public boolean actualizaAnuncio(Anuncio anuncio){

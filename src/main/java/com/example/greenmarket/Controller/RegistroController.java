@@ -1,7 +1,9 @@
 package com.example.greenmarket.Controller;
 
+import com.example.greenmarket.DTO.ListadoAnunciosImagenes;
 import com.example.greenmarket.Entity.Anuncio;
 import com.example.greenmarket.Entity.Usuario;
+import com.example.greenmarket.Service.AnuncioService;
 import com.example.greenmarket.Service.UsuarioServicio;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,8 @@ public class RegistroController {
 
     @Autowired
     UsuarioServicio usuarioServicio;
-
+    @Autowired
+    private AnuncioService anuncioService;
 //------------------------------------------------formularios de registro usuario--------------------------------------------------------------------------
     @GetMapping("/panel/usuario")
     public String volverAlPanel(Model model, Principal principal) {
@@ -76,5 +79,9 @@ public class RegistroController {
         return "usuario-login";
     }
 
+    @GetMapping("/acceso-denegado")
+    public String accesoDenegado() {
+        return "acceso-denegado";
+    }
 
 }

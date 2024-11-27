@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,7 +38,17 @@ public class AnuncioController {
     private UsuarioServicio usuarioServicio;
 
     @GetMapping("/")
-    public String getAnuncios(Model model){
+    public String getAnuncios(Model model, Principal principal){
+
+        if (principal != null) {
+            String username = principal.getName();
+            Usuario usuario = usuarioServicio.dameUsuarioPorEmail(username);
+            model.addAttribute("usuario", usuario.toString());
+        }
+        else{
+            model.addAttribute("usuario", "");
+
+        }
 
 
         List<ListadoAnunciosImagenes> anunciosConFotos = anuncioService.getAnunciosImagenes();
@@ -101,6 +112,8 @@ public class AnuncioController {
         String username = principal.getName();
         Usuario usuario = usuarioServicio.dameUsuarioPorEmail(username);
         anuncio.setUsuario(usuario);
+        LocalDate fechaAnuncio = LocalDate.now();
+        anuncio.setFechaCreacion(fechaAnuncio);
 
         fotoService.guardarFotos(fotos, anuncio);
         anuncioService.altaAnuncio(anuncio);
@@ -131,11 +144,13 @@ public class AnuncioController {
 
         Anuncio anuncio = new Anuncio();
         anuncio = anuncioService.getAnuncioId(id);
+
         model.addAttribute("anuncio", anuncio );
         model.addAttribute("fotos", fotoService.getFotosAnuncio(anuncio));
 
         return "anuncio-ver";
     }
+
 
     @GetMapping("/anuncios/editar/{id}")
     public String getAnuncioEditar(@PathVariable Long id, Model model){
@@ -143,6 +158,9 @@ public class AnuncioController {
             Anuncio anuncio = new Anuncio();
             anuncio = anuncioService.getAnuncioId(id);
             model.addAttribute("anuncio", anuncio );
+
+
+
 
             return "anuncio-editar";
 
@@ -155,15 +173,21 @@ public class AnuncioController {
     }
 
     @PostMapping("/anuncios/editar/{id}")
-    public String getAnunciosEditarActualiza(@Valid Anuncio anuncio , BindingResult bindingResult  , @PathVariable Long id, @RequestParam(value = "archivosFotos", required = false) List<MultipartFile> fotos, Model model, Principal principal){
+    public String getAnunciosEditarActualiza(@Valid Anuncio anuncio , BindingResult bindingResult  , @PathVariable Long id, @RequestParam(value = "archivosFotos", required = false) List<MultipartFile> fotos, Model model, Principal principal ){
+
 
         if (bindingResult.hasErrors()) {
             return "anuncio-editar";
         }
+        Anuncio anuncioDatosNoEditables = anuncioService.getAnuncioId(id);
+        anuncio.setCategoria(anuncioDatosNoEditables.getCategoria());
+        anuncio.setFechaCreacion(anuncioDatosNoEditables.getFechaCreacion());
         anuncio.setId(id);
+
         String username = principal.getName();
         Usuario usuario = usuarioServicio.dameUsuarioPorEmail(username);
         anuncio.setUsuario(usuario);
+
 
         fotoService.guardarFotos(fotos, anuncio);
         anuncioService.actualizaAnuncio(anuncio);

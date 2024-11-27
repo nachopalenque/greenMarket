@@ -8,24 +8,25 @@
     <title>Nuevo Anuncio</title>
 </head>
 <body>
-
-<!-- Barra de navegación -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light p-3">
     <section class="container-fluid">
-        <a class="navbar-brand" href="#">
-            <img src="/images/logo4.png" alt="logo generado por inteligencia artificial" width="150">
-            GreenMarket
-        </a>
+
+        <img src="/images/logo4.png" alt="logo generado por inteligencia artificial" width="150">
+        <h1 class="ml-3">GreenMarket</h1>
+
         <section class="d-flex ms-auto">
-            <a href="#" class="btn btn-outline-primary me-2">Todos los anuncios</a>
-            <a href="#" class="btn btn-outline-primary">Mis anuncios</a>
+            <button th:onclick="|window.location.href='@{/}'|" class="btn btn-outline-primary me-2">Todos los anuncios</button>
+            <button th:onclick="|window.location.href='@{/anuncios/panel/inicio}'|" class="btn btn-outline-primary">Mis Anuncios</button>
+
         </section>
     </section>
+
 </nav>
 
-<!-- Formulario para crear un nuevo anuncio -->
-<section class="container my-5 mb-5"> <!-- Se añade el mb-5 aquí -->
-    <form th:action="@{/anuncios/nuevo}" method="POST" th:object="${anuncio}" enctype="multipart/form-data">
+
+
+<section class="container my-5 mb-5">
+    <form th:action="@{/anuncios/nuevo}" method="POST" th:object="${anuncio}" enctype="multipart/form-data" class="p-4 border rounded shadow-sm">
         <!-- Titulo del producto -->
         <section class="mb-3">
             <label for="titulo" class="form-label">Titulo del producto</label>
@@ -33,20 +34,17 @@
             <span th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}" class="text-danger"></span>
         </section>
 
-        <!-- Descripción del producto -->
         <section class="mb-3">
             <label for="descripcion" class="form-label">Descripcion del producto</label>
             <textarea id="descripcion" name="descripcion" rows="4" class="form-control" th:field="${anuncio.descripcion}" placeholder="Descripción del anuncio"></textarea>
         </section>
 
-        <!-- Precio del producto -->
         <section class="mb-3">
             <label for="precio" class="form-label">Precio del producto</label>
-            <input type="number" name="precio" id="precio" th:field="${anuncio.precio}" class="form-control" min="0.00" max="10000.00" step="0.01">
+            <input type="number" name="precio" id="precio" th:field="${anuncio.precio}" class="form-control" min="0.00"  step="0.01">
             <span th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}" class="text-danger"></span>
         </section>
 
-        <!-- Categoría del producto -->
         <section class="mb-3">
             <label for="categoria" class="form-label">Categoria del producto</label>
             <p th:if="${#lists.isEmpty(categorias)}">No hay categorias aun dadas de alta.</p>
@@ -56,39 +54,34 @@
             </select>
         </section>
 
-        <!-- Sección de imágenes del producto -->
         <section class="mb-3">
             <label class="form-label">Imagenes del producto</label>
             <section class="seccion__articulo__nuevo__contenedorFotos row row-cols-2 row-cols-md-3 g-3" id="contenedorFotos">
-                <!-- Contenedor para la primera imagen -->
+
                 <article class="col">
                     <section class="seccion__articulo__nuevo__contenedorFotos--productoInserta" id="contenedorImg1" onclick="activarSelectorImagen(this)">
                         <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput" accept="image/jpeg, image/png, image/gif, image/webp" onchange="visualizarImage(this)">
                     </section>
                 </article>
 
-                <!-- Contenedor para la segunda imagen -->
                 <article class="col">
                     <section class="seccion__articulo__nuevo__contenedorFotos--productoInserta" id="contenedorImg2" onclick="activarSelectorImagen(this)">
                         <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput" accept="image/jpeg, image/png, image/gif, image/webp" onchange="visualizarImage(this)">
                     </section>
                 </article>
 
-                <!-- Contenedor para la tercera imagen -->
                 <article class="col">
                     <section class="seccion__articulo__nuevo__contenedorFotos--productoInserta" id="contenedorImg3" onclick="activarSelectorImagen(this)">
                         <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput" accept="image/jpeg, image/png, image/gif, image/webp" onchange="visualizarImage(this)">
                     </section>
                 </article>
 
-                <!-- Contenedor para la cuarta imagen -->
                 <article class="col">
                     <section class="seccion__articulo__nuevo__contenedorFotos--productoInserta" id="contenedorImg4" onclick="activarSelectorImagen(this)">
                         <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput" accept="image/jpeg, image/png, image/gif, image/webp" onchange="visualizarImage(this)">
                     </section>
                 </article>
 
-                <!-- Contenedor para la quinta imagen -->
                 <article class="col">
                     <section class="seccion__articulo__nuevo__contenedorFotos--productoInserta" id="contenedorImg5" onclick="activarSelectorImagen(this)">
                         <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput" accept="image/jpeg, image/png, image/gif, image/webp" onchange="visualizarImage(this)">
@@ -98,7 +91,7 @@
         </section>
 
 
-        <button type="submit" class="btn btn-primary">Crear Anuncio</button>
+        <button type="submit" class="btn btn-success">Crear Anuncio</button>
     </form>
 </section>
 

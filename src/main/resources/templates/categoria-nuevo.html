@@ -3,23 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Agregar el enlace a Bootstrap -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/styles.css}" rel="stylesheet"> <!-- Si tienes tu CSS personalizado -->
     <title>Categorias</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <img src="/images/logo4.png" alt="logo generado por inteligencia artificial" width="50">
-    <h1 class="ml-3">GreenMarket</h1>
-    <div class="navbar-nav">
-        <a class="nav-link" href="">Todos los anuncios</a>
-        <a class="nav-link" href="">Mis anuncios</a>
-    </div>
-</nav>
+<nav class="navbar navbar-expand-lg navbar-light bg-light p-3">
+    <section class="container-fluid">
 
+        <img src="/images/logo4.png" alt="logo generado por inteligencia artificial" width="150">
+        <h1 class="ml-3">GreenMarket</h1>
+
+        <section class="d-flex ms-auto">
+            <button th:onclick="|window.location.href='@{/}'|" class="btn btn-outline-secondary me-3">Todos los anuncios</button>
+            <button th:onclick="|window.location.href='@{/anuncios/panel/inicio}'|" class="btn btn-outline-primary me-2">Mis anuncios</button>
+            <button th:onclick="|window.location.href='@{/logout}'|" class="btn btn-outline-danger">Cerrar Sesión</button>
+
+        </section>
+    </section>
+
+</nav>
 <main class="container mt-5">
     <section>
-        <form th:action="@{/categoria/nuevo}" method="POST" th:object="${categoria}">
+        <form th:action="@{/categoria/nuevo}" method="POST" th:object="${categoria}" class="p-4 border rounded shadow-sm">
             <section class="form-group">
                 <label for="titulo">Título:</label>
                 <input type="text" name="titulo" id="titulo" th:field="${categoria.titulo}" class="form-control" placeholder="Titulo de la categoría">
@@ -29,7 +35,8 @@
                 <label for="descripcion">Descripción:</label>
                 <textarea id="descripcion" name="descripcion" rows="4" cols="50" th:field="${categoria.descripcion}" class="form-control" placeholder="Descripción de la categoría"></textarea>
             </section>
-            <button type="submit" class="btn btn-primary">Crear Categoria</button>
+                <input type="submit" class="btn btn-success mt-3" value="Crear Categoria">
+
         </form>
     </section>
 </main>

@@ -8,35 +8,23 @@
     <title>Panel del usuario</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light p-3">
     <section class="container-fluid">
-        <img src="/images/logo4.png" alt="logo generado por inteligencia artificial" class="navbar-brand" width="150">
-        <h1 class="navbar-brand">GreenMarket</h1>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <section>
-        </section>
 
-        <section class="collapse navbar-collapse" id="navbarNav">
+        <img src="/images/logo4.png" alt="logo generado por inteligencia artificial" width="150">
+        <h1 class="ml-3">GreenMarket</h1>
 
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <p th:text="'Bienvenido ' + ${usuario.nombre}"></p>
-                </li>
-                <li class="nav-item">
-                    <a th:href="@{/}" class="btn btn-outline-primary me-3">Todos los anuncios</a>
-                </li>
-                <li class="nav-item">
-                    <a th:if="${usuario.rol == 'ROLE_ADMIN'}" th:href="@{/categoria/nuevo}" class="btn btn-outline-success">Crear categoría</a>
-                </li>
-                <li class="nav-item">
-                    <input type="button" value="Cerrar Sesión" name="iniciar" class="btn btn-outline-primary me-3" th:onclick="|window.location.href='@{/logout}'|">
-                </li>
+        <section class="d-flex ms-auto">
+            <button th:onclick="|window.location.href='@{/}'|" class="btn btn-outline-secondary me-3">Todos los anuncios</button>
+            <button th:if="${usuario.rol == 'ROLE_ADMIN'}" th:onclick="|window.location.href='@{/categoria/nuevo}'|" class="btn btn-outline-primary me-2">Crear categoría</button>
 
-            </ul>
+            <form th:action="@{/logout}" method="post">
+                <input type="submit"  class="btn btn-outline-danger" value="Cerrar Sesión">
+            </form>
+
         </section>
     </section>
+
 </nav>
 
 
@@ -44,20 +32,18 @@
 
 
 <main class="container mt-5">
-    <!-- Sección de bienvenida -->
 
+    <h1 class="text-center" th:text="'Bienvenido Usuario: ' + ${usuario.nombre}"></h1>
 
-    <!-- Sección de creación de anuncio -->
     <section class="mt-4">
         <article>
-            <form th:action="@{/anuncios/nuevo}" method="GET" th:object="${usuario}">
-                <input type="submit" value="Crear nuevo anuncio" class="btn btn-primary">
+            <form th:action="@{/anuncios/nuevo}" method="GET" th:object="${usuario}" class="p-4 border rounded shadow-sm">
+                <input type="submit" value="Crear nuevo anuncio" class="btn btn-success">
             </form>
         </article>
     </section>
 
-    <!-- Tabla de anuncios -->
-    <section class="seccion__tabla__anuncios mt-4">
+    <section class="p-4 border rounded shadow-sm">
         <table class="table table-striped">
             <thead>
             <tr>
@@ -75,7 +61,7 @@
                 <td th:text="${anuncio.fechaCreacion}"></td>
                 <td>
                     <button th:onclick="|window.location.href='@{/anuncios/ver/{id}(id=${anuncio.id})}'|" class="btn btn-info btn-sm me-2">Ver</button>
-                    <button th:onclick="|window.location.href='@{/anuncios/editar/{id}(id=${anuncio.id})}'|" class="btn btn-warning btn-sm me-2">Editar</button>
+                    <button th:onclick="|window.location.href='@{/anuncios/editar/{id}(id=${anuncio.id})}'|" class="btn btn-success btn-sm me-2">Editar</button>
                     <button th:onclick="|window.location.href='@{/anuncios/borrar/{id}(id=${anuncio.id})}'|" class="btn btn-danger btn-sm">Eliminar</button>
                 </td>
             </tr>
@@ -84,7 +70,6 @@
     </section>
 </main>
 
-<!-- Enlace a la CDN de Bootstrap JS (opcional si necesitas interacción) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
