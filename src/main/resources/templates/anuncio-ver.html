@@ -7,11 +7,10 @@
     <link th:href="@{/css/styles.css}" rel="stylesheet">
     <title>Anuncio Ver</title>
     <style>
-        /* Asegurar que las imágenes en las tarjetas se ajusten al tamaño */
         .card-img-top {
             width: 100%;
-            height: 250px; /* Altura fija para todas las imágenes */
-            object-fit: cover; /* Asegura que la imagen se recorte para cubrir el área */
+            height: 250px;
+            object-fit: cover;
         }
     </style>
 </head>
@@ -34,7 +33,6 @@
 </nav>
 
 
-<!-- Contenido principal -->
 <main class="container my-5">
     <!-- Título y descripción del producto -->
     <section class="mb-4">
@@ -42,7 +40,6 @@
         <p th:text="'Descripción: ' + ${anuncio.descripcion}" class="lead"></p>
     </section>
 
-    <!-- Galería de imágenes del anuncio -->
     <section>
         <section class="seccion__anuncio__ver__casilla__contenido row row-cols-1 row-cols-md-3 g-4">
             <section th:each="foto : ${fotos}">

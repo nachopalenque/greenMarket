@@ -3,7 +3,6 @@ package com.example.greenmarket.Controller;
 import com.example.greenmarket.Entity.Anuncio;
 import com.example.greenmarket.Entity.Categoria;
 import com.example.greenmarket.Entity.Usuario;
-import com.example.greenmarket.Repository.UsuarioRepository;
 import com.example.greenmarket.Service.CategoriaService;
 import com.example.greenmarket.Service.UsuarioServicio;
 import jakarta.servlet.http.HttpSession;

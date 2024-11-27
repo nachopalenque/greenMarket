@@ -3,18 +3,15 @@ package com.example.greenmarket.Controller;
 import com.example.greenmarket.DTO.ListadoAnunciosImagenes;
 import com.example.greenmarket.Entity.Anuncio;
 import com.example.greenmarket.Entity.Categoria;
-import com.example.greenmarket.Entity.Foto;
 import com.example.greenmarket.Entity.Usuario;
 import com.example.greenmarket.Repository.AnuncioRepository;
 import com.example.greenmarket.Service.AnuncioService;
 import com.example.greenmarket.Service.CategoriaService;
 import com.example.greenmarket.Service.FotoService;
 import com.example.greenmarket.Service.UsuarioServicio;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class AnuncioController {
@@ -214,9 +210,7 @@ public class AnuncioController {
         fotoService.guardarFotos(fotos, anuncio);
         anuncioService.actualizaAnuncio(anuncio);
 
-        // Obtén los anuncios del usuario
         List<Anuncio> anuncios = usuario.getAnuncios();
-        // Agrega los anuncios y el usuario al modelo
         model.addAttribute("usuario", usuario);
         model.addAttribute("anuncios", anuncios);
         return "redirect:/anuncios/panel/inicio";

@@ -6,7 +6,6 @@ import com.example.greenmarket.Repository.AnuncioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,10 +41,7 @@ public class AnuncioService {
         ;
     }
 
-    public Optional<Anuncio> dameAnuncioPorIdFoto(long id_foto){
 
-        return anuncioRepository.findAnuncioByFotosId(id_foto);
-    }
 
 
 

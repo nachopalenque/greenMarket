@@ -9,7 +9,6 @@
 </head>
 <body>
 
-<!-- Barra de navegación -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light p-3">
     <section class="container-fluid">
 
@@ -28,7 +27,6 @@
 
 
 
-<!-- Formulario para editar el anuncio -->
 <main class="container my-5">
     <form th:action="@{/anuncios/editar/{id}(id=${anuncio.id})}" method="POST" th:object="${anuncio}" enctype="multipart/form-data" class="p-4 border rounded shadow-sm">
 
@@ -39,20 +37,17 @@
             <span th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}" class="text-danger"></span>
         </section>
 
-        <!-- Descripción del producto -->
         <section class="mb-3">
             <label for="descripcion" class="form-label">Descripción del producto:</label>
             <textarea id="descripcion" name="descripcion" class="form-control" rows="4" th:field="*{descripcion}" th:value="*{titulo}" placeholder="Descripción del anuncio"></textarea>
         </section>
 
-        <!-- Precio del producto -->
         <section class="mb-3">
             <label for="precio" class="form-label">Precio del producto:</label>
             <input type="number" class="form-control" name="precio" id="precio" th:field="*{precio}" th:value="*{precio}" min="0" step="0.01">
             <span th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}" class="text-danger"></span>
         </section>
 
-        <!-- Galería de imágenes -->
         <legend>Imagenes del producto:</legend>
         <section class="seccion__articulo__nuevo__contenedorFotos row row-cols-3 row-cols-md-4 g-3 p-1">
             <section>
@@ -77,7 +72,6 @@
                 </article>
             </section>
 
-            <!-- Repetir el mismo patrón para las siguientes imágenes -->
             <section>
                 <article class="seccion__articulo__nuevo__contenedorFotos--productoInserta" id="contenedorImg3Edit" th:if="${#lists.size(anuncio.fotos) >= 3}" onclick="activarSelectorImagen(this)">
                     <input type="file" name="archivosFotos" class="seccion__articulo__nuevo__contenedorFotos--fileInput" accept="image/jpeg, image/png, image/gif, image/webp" onchange="visualizarImage(this)">
@@ -113,7 +107,6 @@
 
         </section>
 
-        <!-- Botón para actualizar el anuncio -->
         <section class="mt-3">
             <input type="submit" value="Actualizar Anuncio" class="btn btn-primary">
         </section>
@@ -125,6 +118,7 @@
 
 
 <script>
+
     // Función para activar el selector de imágenes
     function activarSelectorImagen(caja) {
         caja.querySelector('.seccion__articulo__nuevo__contenedorFotos--fileInput').click();
@@ -149,14 +143,14 @@
                         input.parentElement.appendChild(img);
                     }
 
-                    img.src = e.target.result; // Asigna la imagen seleccionada
+                    img.src = e.target.result;
                 };
 
                 reader.readAsDataURL(file);
             } else {
                 let img = input.parentElement.querySelector('img');
                 if (img) {
-                    img.remove(); // Elimina la imagen si no se selecciona ninguna
+                    img.remove();
                 }
             }
         }

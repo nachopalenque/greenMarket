@@ -27,7 +27,6 @@
 
 <section class="container my-5 mb-5">
     <form th:action="@{/anuncios/nuevo}" method="POST" th:object="${anuncio}" enctype="multipart/form-data" class="p-4 border rounded shadow-sm">
-        <!-- Titulo del producto -->
         <section class="mb-3">
             <label for="titulo" class="form-label">Titulo del producto</label>
             <input type="text" name="titulo" id="titulo" th:field="${anuncio.titulo}" class="form-control" placeholder="Titulo del anuncio">
